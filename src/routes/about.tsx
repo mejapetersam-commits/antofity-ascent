@@ -119,11 +119,11 @@ function About() {
           title="Infrastructure → Integration → Communication → Managed Technology"
           intro="Our capability set builds on itself: each layer strengthens the one before it."
         />
-        <ol className="mt-14 grid gap-px overflow-hidden rounded-sm border border-on-dark/10 bg-on-dark/10 md:grid-cols-4">
+        <ol className="mt-14 grid gap-px overflow-hidden rounded-sm border border-gold/10 bg-on-dark/10 md:grid-cols-4">
           {evolution.map((e, i) => (
-            <li key={e.label} className="relative bg-midnight p-8">
+            <li key={e.label} className="relative bg-void p-8">
               <span className="flow-line absolute inset-x-0 top-0 h-px bg-on-dark/10" aria-hidden="true" />
-              <p className="eyebrow text-cyan">Layer 0{i + 1}</p>
+              <p className="eyebrow text-gold">Layer 0{i + 1}</p>
               <h3 className="mt-4 text-lg font-bold text-on-dark">{e.label}</h3>
               <p className="mt-3 text-sm leading-relaxed text-on-dark-muted">{e.text}</p>
             </li>
@@ -136,7 +136,7 @@ function About() {
         <div className="mt-14 grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-3">
           {mvg.map(({ icon: Icon, heading, body }) => (
             <article key={heading} className="bg-card p-8 md:p-10">
-              <Icon className="size-6 text-cyan" aria-hidden="true" />
+              <Icon className="size-6 text-gold" aria-hidden="true" />
               <h3 className="mt-6 text-xl font-extrabold text-foreground">{heading}</h3>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{body}</p>
             </article>

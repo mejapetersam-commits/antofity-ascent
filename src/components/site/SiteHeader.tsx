@@ -21,20 +21,20 @@ export function SiteHeader() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         scrolled
-          ? "border-b border-on-dark/10 bg-midnight/95 backdrop-blur-md"
-          : "border-b border-transparent bg-midnight/40 backdrop-blur-sm",
+          ? "border-b border-gold/15 bg-void/95 backdrop-blur-md"
+          : "border-b border-transparent bg-void/40 backdrop-blur-sm",
       )}
     >
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-6 px-5 py-4 sm:px-8">
         <Link to="/" className="group flex items-center gap-3" onClick={() => setOpen(false)}>
-          <span className="relative grid size-9 place-items-center rounded-sm bg-primary text-primary-foreground">
-            <span className="text-base font-extrabold leading-none">A</span>
+          <span className="relative grid size-9 place-items-center rounded-sm bg-primary text-primary-foreground shadow-glow">
+            <span className="font-display text-base font-bold leading-none">A</span>
           </span>
           <span className="leading-tight">
-            <span className="block text-sm font-extrabold tracking-[0.16em] text-on-dark">
+            <span className="block font-display text-sm font-bold tracking-[0.16em] text-on-dark">
               ANTOFITY
             </span>
-            <span className="block text-[0.6rem] font-semibold tracking-[0.3em] text-on-dark-muted">
+            <span className="block font-mono text-[0.6rem] font-medium tracking-[0.3em] text-on-dark-muted">
               CONCEPTS
             </span>
           </span>
@@ -47,7 +47,7 @@ export function SiteHeader() {
               to={l.to}
               activeOptions={{ exact: l.to === "/" }}
               className="relative text-[0.8rem] font-semibold tracking-wide text-on-dark-muted transition-colors hover:text-on-dark"
-              activeProps={{ className: "text-cyan hover:text-cyan" }}
+              activeProps={{ className: "text-gold hover:text-gold" }}
             >
               {l.label}
             </Link>
@@ -72,7 +72,7 @@ export function SiteHeader() {
       </div>
 
       {open ? (
-        <div className="border-t border-on-dark/10 bg-midnight lg:hidden">
+        <div className="border-t border-gold/15 bg-void lg:hidden">
           <nav aria-label="Mobile" className="mx-auto flex max-w-7xl flex-col px-5 py-4 sm:px-8">
             {navLinks.map((l) => (
               <Link
@@ -80,7 +80,7 @@ export function SiteHeader() {
                 to={l.to}
                 onClick={() => setOpen(false)}
                 className="border-b border-on-dark/10 py-3.5 text-sm font-semibold text-on-dark-muted"
-                activeProps={{ className: "text-cyan" }}
+                activeProps={{ className: "text-gold" }}
                 activeOptions={{ exact: l.to === "/" }}
               >
                 {l.label}

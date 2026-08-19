@@ -4,17 +4,17 @@ import type { ReactNode, ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 export const actionVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-sm px-6 py-3.5 text-xs font-bold uppercase tracking-[0.14em] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-60",
+  "inline-flex items-center justify-center gap-2 rounded-sm px-6 py-3.5 text-xs font-bold uppercase tracking-[0.14em] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-60",
   {
     variants: {
       variant: {
         primary:
-          "bg-primary text-primary-foreground hover:brightness-110 hover:shadow-lift",
+          "bg-primary text-primary-foreground shadow-glow hover:brightness-110 hover:shadow-lift",
         outlineLight:
-          "border border-on-dark-muted/40 text-on-dark hover:border-cyan hover:text-cyan",
+          "border border-on-dark-muted/40 text-on-dark hover:border-gold hover:text-gold",
         outlineDark:
-          "border border-foreground/20 text-foreground hover:border-cyan hover:text-cyan",
-        ghost: "text-cyan hover:gap-3 px-0 py-0",
+          "border border-foreground/20 text-foreground hover:border-gold hover:text-gold",
+        ghost: "text-gold hover:gap-3 px-0 py-0",
       },
       size: {
         default: "",
@@ -74,10 +74,10 @@ export function Eyebrow({ children, dark }: { children: ReactNode; dark?: boolea
     <p
       className={cn(
         "eyebrow flex items-center gap-3",
-        dark ? "text-cyan" : "text-muted-foreground",
+        dark ? "text-gold" : "text-muted-foreground",
       )}
     >
-      <span className="rule-tech inline-block h-px w-8" aria-hidden="true" />
+      <span className="rule-gold inline-block h-px w-8" aria-hidden="true" />
       {children}
     </p>
   );
@@ -103,7 +103,7 @@ export function SectionHeading({
       {eyebrow ? <Eyebrow dark={dark}>{eyebrow}</Eyebrow> : null}
       <As
         className={cn(
-          "mt-5 text-3xl font-extrabold leading-[1.1] sm:text-4xl md:text-5xl",
+          "mt-5 text-3xl font-bold leading-[1.08] sm:text-4xl md:text-5xl",
           dark ? "text-on-dark" : "text-foreground",
         )}
       >
@@ -133,7 +133,7 @@ export function PageHero({
   intro: string;
 }) {
   return (
-    <section className="surface-dark grid-tech pt-32 pb-20 md:pt-40 md:pb-28">
+    <section className="surface-dark grid-tech relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
         <SectionHeading as="h1" dark eyebrow={eyebrow} title={title} intro={intro} />
       </div>

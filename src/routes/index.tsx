@@ -59,15 +59,32 @@ function Home() {
           className="absolute inset-0 -z-10 size-full object-cover opacity-45"
         />
         <div
-          className="absolute inset-0 -z-10 bg-[linear-gradient(100deg,var(--midnight)_18%,color-mix(in_oklab,var(--midnight)_72%,transparent)_58%,color-mix(in_oklab,var(--graphite)_55%,transparent)_100%)]"
+          className="absolute inset-0 -z-10 bg-[linear-gradient(100deg,var(--void)_18%,color-mix(in_oklab,var(--void)_72%,transparent)_58%,color-mix(in_oklab,var(--graphite)_55%,transparent)_100%)]"
           aria-hidden="true"
         />
+        <svg
+          className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[46%] opacity-70 lg:block"
+          viewBox="0 0 600 800"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M600 90H430l-40 40v120l-30 30H230M600 260H480l-30 30v90M600 430H360l-40 40v160l-30 30H80M600 560H520l-30 30v120"
+            stroke="var(--gold)"
+            strokeOpacity="0.35"
+            strokeWidth="1.5"
+          />
+          <circle className="node-pulse" cx="230" cy="280" r="4" fill="var(--gold)" />
+          <circle className="node-pulse" cx="450" cy="320" r="3" fill="var(--gold)" style={{ animationDelay: "0.6s" }} />
+          <circle className="node-pulse" cx="80" cy="630" r="4" fill="var(--gold)" style={{ animationDelay: "1.2s" }} />
+          <circle className="node-pulse" cx="520" cy="710" r="3" fill="var(--gold)" style={{ animationDelay: "1.8s" }} />
+        </svg>
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
           <div className="max-w-3xl reveal">
             <Eyebrow dark>Nairobi, Kenya · Established September 2017</Eyebrow>
             <h1 className="mt-6 text-4xl font-extrabold leading-[1.05] text-on-dark sm:text-5xl md:text-6xl lg:text-7xl">
               Technology Infrastructure{" "}
-              <span className="text-gradient-tech">Built for Business.</span>
+              <span className="text-gradient-gold">Built for Business.</span>
             </h1>
             <p className="mt-7 max-w-2xl text-base leading-relaxed text-on-dark-muted md:text-lg">
               Antofity Concepts delivers end-to-end ICT solutions that help organizations improve
@@ -83,15 +100,15 @@ function Home() {
             </div>
           </div>
 
-          <dl className="mt-16 grid gap-px overflow-hidden rounded-sm border border-on-dark/10 bg-on-dark/10 sm:grid-cols-2 lg:grid-cols-4">
+          <dl className="mt-16 grid gap-px overflow-hidden rounded-sm border border-gold/10 bg-on-dark/10 sm:grid-cols-2 lg:grid-cols-4">
             {[
               ["Infrastructure", "Structured cabling & network design"],
               ["Hardware", "Procure, configure, deploy, maintain"],
               ["Communications", "IP telephony & collaboration"],
               ["Managed IT", "Monitoring, backup & support"],
             ].map(([term, detail]) => (
-              <div key={term} className="bg-midnight/85 px-6 py-7 backdrop-blur-sm">
-                <dt className="eyebrow text-cyan">{term}</dt>
+              <div key={term} className="bg-void/85 px-6 py-7 backdrop-blur-sm">
+                <dt className="eyebrow text-gold">{term}</dt>
                 <dd className="mt-2 text-sm text-on-dark-muted">{detail}</dd>
               </div>
             ))}
@@ -116,7 +133,7 @@ function Home() {
                   key={p.title}
                   className="group bg-card p-7 transition-colors duration-300 hover:bg-secondary"
                 >
-                  <Icon className="size-6 text-cyan" aria-hidden="true" />
+                  <Icon className="size-6 text-gold" aria-hidden="true" />
                   <h3 className="mt-5 text-base font-bold text-foreground">{p.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                     {p.description}
@@ -127,7 +144,7 @@ function Home() {
             <div className="flex items-center bg-card p-7">
               <Link
                 to="/solutions"
-                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-cyan transition-all hover:gap-3"
+                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-gold transition-all hover:gap-3"
               >
                 All solutions <ArrowRight className="size-4" aria-hidden="true" />
               </Link>
@@ -149,14 +166,14 @@ function Home() {
               key={s.slug}
               className="group relative bg-card p-8 transition-all duration-300 hover:bg-background md:p-10"
             >
-              <span className="rule-tech absolute inset-x-0 top-0 h-0.5 scale-x-0 transition-transform duration-500 group-hover:scale-x-100" />
-              <p className="eyebrow text-cyan">{s.number}</p>
+              <span className="rule-gold absolute inset-x-0 top-0 h-0.5 scale-x-0 transition-transform duration-500 group-hover:scale-x-100" />
+              <p className="eyebrow text-gold">{s.number}</p>
               <h3 className="mt-4 text-2xl font-extrabold text-foreground">{s.title}</h3>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{s.summary}</p>
               <ul className="mt-6 space-y-2">
                 {s.capabilities.slice(0, 4).map((c) => (
                   <li key={c} className="flex gap-3 text-sm text-foreground/85">
-                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-cyan" aria-hidden="true" />
+                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true" />
                     {c}
                   </li>
                 ))}
@@ -174,7 +191,7 @@ function Home() {
               <Link
                 to="/solutions"
                 hash={s.slug}
-                className="mt-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-cyan transition-all hover:gap-3"
+                className="mt-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-gold transition-all hover:gap-3"
               >
                 Details <ArrowRight className="size-4" aria-hidden="true" />
               </Link>
@@ -193,7 +210,7 @@ function Home() {
               title="Focus on Your Business. We'll Handle Your IT."
               intro="Proactive monitoring, maintenance and support across your network, applications and data — so technology stops being a source of interruption."
             />
-            <div className="mt-10 grid gap-px overflow-hidden rounded-sm border border-on-dark/10 bg-on-dark/10 sm:grid-cols-2">
+            <div className="mt-10 grid gap-px overflow-hidden rounded-sm border border-gold/10 bg-on-dark/10 sm:grid-cols-2">
               {[
                 "Reduced Downtime",
                 "Predictable IT Costs",
@@ -202,8 +219,8 @@ function Home() {
               ].map((o, i) => {
                 const Icon = outcomeIcons[i] ?? Activity;
                 return (
-                  <div key={o} className="bg-midnight px-6 py-7">
-                    <Icon className="size-5 text-cyan" aria-hidden="true" />
+                  <div key={o} className="bg-void px-6 py-7">
+                    <Icon className="size-5 text-gold" aria-hidden="true" />
                     <h3 className="mt-4 text-sm font-bold text-on-dark">{o}</h3>
                   </div>
                 );
@@ -213,7 +230,7 @@ function Home() {
               See managed services <ArrowRight className="size-4" aria-hidden="true" />
             </ActionLink>
           </div>
-          <figure className="relative overflow-hidden rounded-sm border border-on-dark/10">
+          <figure className="relative overflow-hidden rounded-sm border border-gold/10">
             <img
               src={nocImage}
               alt="Network operations centre with monitoring dashboards"
@@ -222,7 +239,7 @@ function Home() {
               loading="lazy"
               className="size-full object-cover"
             />
-            <figcaption className="absolute inset-x-0 bottom-0 bg-midnight/85 px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-on-dark-muted backdrop-blur-sm">
+            <figcaption className="absolute inset-x-0 bottom-0 bg-void/85 px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-on-dark-muted backdrop-blur-sm">
               Monitoring, maintenance and support
             </figcaption>
           </figure>
@@ -240,7 +257,7 @@ function Home() {
           {industries.map((ind) => (
             <article key={ind.name} className="group bg-card p-8 transition-colors hover:bg-secondary">
               <div className="flex items-center gap-3">
-                <span className="node-pulse size-2 rounded-full bg-cyan" aria-hidden="true" />
+                <span className="node-pulse size-2 rounded-full bg-gold" aria-hidden="true" />
                 <h3 className="text-lg font-bold text-foreground">{ind.name}</h3>
               </div>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
@@ -266,8 +283,8 @@ function Home() {
         <ol className="mt-14 grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-4">
           {process.map((p) => (
             <li key={p.step} className="relative bg-card p-8">
-              <span className="rule-tech absolute inset-x-0 top-0 h-0.5" aria-hidden="true" />
-              <p className="text-3xl font-extrabold text-cyan">{p.step}</p>
+              <span className="rule-gold absolute inset-x-0 top-0 h-0.5" aria-hidden="true" />
+              <p className="text-3xl font-extrabold text-gold">{p.step}</p>
               <h3 className="mt-4 text-base font-bold uppercase tracking-[0.1em] text-foreground">
                 {p.title}
               </h3>
@@ -286,7 +303,7 @@ function Home() {
             title="Built for Long-Term Technology Partnerships."
             intro="Professionalism, reliability, technical expertise, security, scalability and responsive support — the foundations of how we work with clients over time."
           />
-          <div className="grid gap-px overflow-hidden rounded-sm border border-on-dark/10 bg-on-dark/10 sm:grid-cols-3">
+          <div className="grid gap-px overflow-hidden rounded-sm border border-gold/10 bg-on-dark/10 sm:grid-cols-3">
             {[
               [Cable, "Infrastructure discipline"],
               [ShieldCheck, "Security-first delivery"],
@@ -295,7 +312,7 @@ function Home() {
               const I = Icon as typeof Cable;
               return (
                 <div key={label as string} className="bg-graphite px-6 py-8">
-                  <I className="size-5 text-cyan" aria-hidden="true" />
+                  <I className="size-5 text-gold" aria-hidden="true" />
                   <p className="mt-4 text-sm font-semibold text-on-dark">{label as string}</p>
                 </div>
               );

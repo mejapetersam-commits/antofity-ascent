@@ -25,7 +25,7 @@ export function ContactForm() {
   }
 
   const field =
-    "w-full rounded-sm border border-input bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/70 focus:border-cyan focus:outline-none focus:ring-2 focus:ring-cyan/30";
+    "w-full rounded-sm border border-input bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/70 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/30";
   const label = "block text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground";
 
   return (
@@ -94,7 +94,7 @@ export function ContactForm() {
 
       {sent ? (
         <p className="flex items-center gap-2 text-sm text-muted-foreground" role="status">
-          <CheckCircle2 className="size-4 text-cyan" aria-hidden="true" />
+          <CheckCircle2 className="size-4 text-gold" aria-hidden="true" />
           Your email client has been opened with the enquiry details. You can also write to{" "}
           {company.email} directly.
         </p>

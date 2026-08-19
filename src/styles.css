@@ -6,7 +6,7 @@
 
 /*
  * ANTOFITY CONCEPTS design system.
- * Midnight navy corporate surfaces, cloud-white content, cyan technology accent.
+ * Void-black corporate surfaces, warm ivory content, gold circuit-trace accent.
  * All colors in oklch. Never hardcode raw colors in components.
  */
 
@@ -20,7 +20,8 @@
   --radius-4xl: calc(var(--radius) + 18px);
 
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -44,79 +45,80 @@
   --color-ring-offset-background: var(--background);
 
   /* Brand surfaces */
-  --color-midnight: var(--midnight);
-  --color-deep: var(--deep);
+  --color-void: var(--void);
+  --color-charcoal: var(--charcoal);
   --color-graphite: var(--graphite);
-  --color-cloud: var(--cloud);
-  --color-mist: var(--mist);
-  --color-cyan: var(--cyan);
-  --color-azure: var(--azure);
+  --color-ivory: var(--ivory);
+  --color-sand: var(--sand);
+  --color-gold: var(--gold);
+  --color-amber: var(--amber);
   --color-on-dark: var(--on-dark);
   --color-on-dark-muted: var(--on-dark-muted);
 
-  --color-chart-1: var(--cyan);
-  --color-chart-2: var(--azure);
-  --color-chart-3: var(--deep);
+  --color-chart-1: var(--gold);
+  --color-chart-2: var(--amber);
+  --color-chart-3: var(--charcoal);
   --color-chart-4: var(--graphite);
-  --color-chart-5: var(--midnight);
+  --color-chart-5: var(--void);
 
-  --color-sidebar: var(--midnight);
+  --color-sidebar: var(--void);
   --color-sidebar-foreground: var(--on-dark);
-  --color-sidebar-primary: var(--cyan);
-  --color-sidebar-primary-foreground: var(--midnight);
-  --color-sidebar-accent: var(--deep);
+  --color-sidebar-primary: var(--gold);
+  --color-sidebar-primary-foreground: var(--void);
+  --color-sidebar-accent: var(--charcoal);
   --color-sidebar-accent-foreground: var(--on-dark);
-  --color-sidebar-border: var(--deep);
-  --color-sidebar-ring: var(--cyan);
+  --color-sidebar-border: var(--charcoal);
+  --color-sidebar-ring: var(--gold);
 }
 
 :root {
-  --radius: 0.25rem;
+  --radius: 0.125rem;
 
   /* Brand palette */
-  --midnight: oklch(0.187 0.033 253.1); /* #071525 */
-  --deep: oklch(0.259 0.041 249.9); /* #0D2238 */
-  --graphite: oklch(0.256 0.019 249.0); /* #17212B */
-  --cyan: oklch(0.756 0.121 199.2); /* #19C3D1 */
-  --azure: oklch(0.617 0.201 262.4); /* #3D7EFF */
-  --cloud: oklch(0.978 0.004 247.9); /* #F7F9FC */
-  --mist: oklch(0.933 0.009 247.9); /* #E8EDF3 */
-  --on-dark: oklch(0.978 0.004 247.9);
-  --on-dark-muted: oklch(0.767 0.021 251.0); /* #A9B7C6 */
+  --void: oklch(0.145 0.005 90); /* #0A0A0B */
+  --charcoal: oklch(0.205 0.008 85); /* #151412 */
+  --graphite: oklch(0.245 0.012 80); /* #1F1C17 */
+  --gold: oklch(0.75 0.14 85); /* #D4AF37 */
+  --amber: oklch(0.83 0.15 88); /* #F2C94C */
+  --ivory: oklch(0.98 0.006 85); /* #FAF8F3 */
+  --sand: oklch(0.925 0.014 80); /* #EAE3D3 */
+  --on-dark: oklch(0.97 0.008 85); /* #F5F1E8 */
+  --on-dark-muted: oklch(0.67 0.017 80); /* #A79F8E */
 
-  --background: var(--cloud);
-  --foreground: oklch(0.204 0.025 251.0); /* #0B1622 */
+  --background: var(--ivory);
+  --foreground: oklch(0.175 0.008 85); /* #0F0D0A */
   --card: oklch(1 0 0);
   --card-foreground: var(--foreground);
   --popover: oklch(1 0 0);
   --popover-foreground: var(--foreground);
-  --primary: var(--cyan);
-  --primary-foreground: var(--midnight);
-  --secondary: var(--mist);
+  --primary: var(--gold);
+  --primary-foreground: var(--void);
+  --secondary: var(--sand);
   --secondary-foreground: var(--foreground);
-  --muted: var(--mist);
-  --muted-foreground: oklch(0.517 0.026 251.5); /* #536273 */
-  --accent: var(--azure);
-  --accent-foreground: oklch(1 0 0);
+  --muted: var(--sand);
+  --muted-foreground: oklch(0.44 0.014 80); /* #5C5646 */
+  --accent: var(--charcoal);
+  --accent-foreground: var(--on-dark);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.99 0 0);
-  --border: var(--mist);
-  --input: var(--mist);
-  --ring: var(--cyan);
+  --border: var(--sand);
+  --input: var(--sand);
+  --ring: var(--gold);
 
   /* Gradients & elevation */
-  --gradient-corporate: linear-gradient(150deg, #071525 0%, #0d2238 55%, #17212b 100%);
-  --gradient-tech: linear-gradient(90deg, #19c3d1 0%, #3d7eff 100%);
-  --shadow-card: 0 1px 2px rgb(11 22 34 / 0.04), 0 12px 32px -18px rgb(11 22 34 / 0.28);
-  --shadow-lift: 0 2px 4px rgb(11 22 34 / 0.05), 0 26px 48px -24px rgb(7 21 37 / 0.4);
+  --gradient-corporate: linear-gradient(150deg, #08080a 0%, #141210 55%, #1f1c17 100%);
+  --gradient-gold: linear-gradient(90deg, #d4af37 0%, #f2c94c 100%);
+  --shadow-card: 0 1px 2px rgb(10 10 11 / 0.05), 0 12px 32px -18px rgb(10 10 11 / 0.3);
+  --shadow-lift: 0 2px 4px rgb(10 10 11 / 0.06), 0 26px 48px -24px rgb(10 10 11 / 0.5);
+  --shadow-glow: 0 0 0 1px rgb(212 175 55 / 0.4), 0 8px 30px -6px rgb(212 175 55 / 0.35);
 }
 
 .dark {
-  --background: var(--midnight);
+  --background: var(--void);
   --foreground: var(--on-dark);
-  --card: var(--deep);
+  --card: var(--charcoal);
   --card-foreground: var(--on-dark);
-  --popover: var(--deep);
+  --popover: var(--charcoal);
   --popover-foreground: var(--on-dark);
   --secondary: var(--graphite);
   --secondary-foreground: var(--on-dark);
@@ -146,13 +148,14 @@
   h2,
   h3,
   h4 {
-    letter-spacing: -0.025em;
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
     text-wrap: balance;
   }
 
   ::selection {
-    background: var(--cyan);
-    color: var(--midnight);
+    background: var(--gold);
+    color: var(--void);
   }
 }
 
@@ -163,15 +166,15 @@
   color: var(--color-on-dark);
 }
 
-@utility text-gradient-tech {
-  background-image: var(--gradient-tech);
+@utility text-gradient-gold {
+  background-image: var(--gradient-gold);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-@utility rule-tech {
-  background-image: var(--gradient-tech);
+@utility rule-gold {
+  background-image: var(--gradient-gold);
 }
 
 @utility shadow-card {
@@ -182,7 +185,11 @@
   box-shadow: var(--shadow-lift);
 }
 
-/* Subtle technical grid overlay for dark sections */
+@utility shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+/* Circuit-board trace overlay for dark sections — the site's signature motif */
 @utility grid-tech {
   position: relative;
   &::before {
@@ -191,21 +198,28 @@
     inset: 0;
     pointer-events: none;
     background-image:
-      linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+      linear-gradient(to right, rgb(212 175 55 / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(212 175 55 / 0.06) 1px, transparent 1px);
     background-size: 72px 72px;
     mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, #000 30%, transparent 100%);
   }
 }
 
+@utility circuit-trace {
+  position: absolute;
+  pointer-events: none;
+  stroke: var(--gold);
+}
+
 @utility eyebrow {
+  font-family: var(--font-mono);
   font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  font-weight: 600;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-/* Animated data-flow line */
+/* Animated gold data-flow line */
 @utility flow-line {
   position: relative;
   overflow: hidden;
@@ -215,7 +229,7 @@
     inset-block: 0;
     left: -30%;
     width: 30%;
-    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
     animation: flow-sweep 4.5s ease-in-out infinite;
   }
 }
@@ -235,10 +249,12 @@
   100% {
     opacity: 0.35;
     transform: scale(1);
+    box-shadow: 0 0 0 0 rgb(212 175 55 / 0.5);
   }
   50% {
     opacity: 1;
-    transform: scale(1.25);
+    transform: scale(1.3);
+    box-shadow: 0 0 0 6px rgb(212 175 55 / 0);
   }
 }
 
@@ -259,6 +275,26 @@
 
 @utility reveal {
   animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@utility shimmer {
+  background-image: linear-gradient(
+    100deg,
+    var(--gold) 30%,
+    var(--amber) 40%,
+    var(--gold) 55%
+  );
+  background-size: 250% 100%;
+  animation: shimmer-sweep 5s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
