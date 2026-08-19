@@ -131,8 +131,7 @@ export const differentiators = [
   },
   {
     title: "Client-Centric Approach",
-    description:
-      "Solutions designed around organisational requirements and real business needs.",
+    description: "Solutions designed around organisational requirements and real business needs.",
   },
   {
     title: "Experienced & Certified Professionals",
@@ -150,8 +149,7 @@ export const differentiators = [
   },
   {
     title: "Quick Turnaround Times",
-    description:
-      "Responsive engagement from requirement to deployment, and on through support.",
+    description: "Responsive engagement from requirement to deployment, and on through support.",
   },
   {
     title: "Reliable After-Sales Support",
@@ -201,8 +199,7 @@ export const pillars = [
   },
   {
     title: "Security",
-    description:
-      "CCTV installation, firewalls, UTM systems and endpoint security software.",
+    description: "CCTV installation, firewalls, UTM systems and endpoint security software.",
   },
   {
     title: "Managed IT",

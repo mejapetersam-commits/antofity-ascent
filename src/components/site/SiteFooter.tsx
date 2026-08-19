@@ -15,10 +15,7 @@ export function SiteFooter() {
               ANTOFITY
             </span>
           </div>
-          <p className="mt-5 text-sm leading-relaxed">
-            End-to-end ICT solutions that improve performance, strengthen security and keep
-            organisations connected. Nairobi, Kenya.
-          </p>
+          <p className="mt-5 text-sm leading-relaxed">End-to-end ICT solutions. Nairobi, Kenya.</p>
         </div>
 
         <nav aria-label="Footer navigation">
@@ -39,11 +36,7 @@ export function SiteFooter() {
           <ul className="mt-5 space-y-3 text-sm">
             {solutions.map((s) => (
               <li key={s.slug}>
-                <Link
-                  to="/solutions"
-                  hash={s.slug}
-                  className="transition-colors hover:text-gold"
-                >
+                <Link to="/solutions" hash={s.slug} className="transition-colors hover:text-gold">
                   {s.title}
                 </Link>
               </li>

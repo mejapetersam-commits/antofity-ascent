@@ -137,7 +137,10 @@ export function PageHero({
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
         <SectionHeading as="h1" dark eyebrow={eyebrow} title={title} intro={intro} />
       </div>
-      <div className="flow-line absolute inset-x-0 bottom-0 h-px bg-on-dark/10" aria-hidden="true" />
+      <div
+        className="flow-line absolute inset-x-0 bottom-0 h-px bg-on-dark/10"
+        aria-hidden="true"
+      />
     </section>
   );
 }

@@ -30,18 +30,14 @@ function Contact() {
     <>
       <PageHero
         eyebrow="Contact"
-        title="Let's Talk About Your Technology Environment."
-        intro="Tell us what you're running and what you need — we'll come back with a clear scope, not a sales pitch."
+        title="Let's Talk."
+        intro="Tell us what you're running — we'll come back with a clear scope."
       />
 
       <Section tone="white">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
           <div>
-            <SectionHeading
-              eyebrow="Get in touch"
-              title="Office & Direct Lines"
-              intro="Reach us directly, or send the form and we'll route it to the right team."
-            />
+            <SectionHeading eyebrow="Get in touch" title="Direct Lines" />
             <ul className="mt-8 space-y-6">
               <li className="flex gap-4">
                 <span className="grid size-10 shrink-0 place-items-center rounded-sm border border-gold/30 bg-void text-gold">

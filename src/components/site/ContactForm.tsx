@@ -60,7 +60,13 @@ export function ContactForm() {
           <label className={label} htmlFor="phone">
             Phone
           </label>
-          <input id="phone" name="phone" type="tel" className={`mt-2 ${field}`} autoComplete="tel" />
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            className={`mt-2 ${field}`}
+            autoComplete="tel"
+          />
         </div>
       </div>
 
