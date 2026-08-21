@@ -1,20 +1,20 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { company, navLinks, solutions } from "@/lib/company";
+import lockupLogo from "@/assets/antofity-lockup.png";
 
 export function SiteFooter() {
   return (
     <footer className="bg-void text-on-dark-muted">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 md:grid-cols-4">
         <div className="md:col-span-1">
-          <div className="flex items-center gap-3">
-            <span className="grid size-9 place-items-center rounded-sm bg-primary text-primary-foreground font-display text-base font-bold">
-              A
-            </span>
-            <span className="font-display text-sm font-bold tracking-[0.16em] text-on-dark">
-              ANTOFITY
-            </span>
-          </div>
+          <img
+            src={lockupLogo}
+            alt="Antofity Concepts — First class digital strategies"
+            className="h-16 w-auto"
+            width={930}
+            height={560}
+          />
           <p className="mt-5 text-sm leading-relaxed">End-to-end ICT solutions. Nairobi, Kenya.</p>
         </div>
 

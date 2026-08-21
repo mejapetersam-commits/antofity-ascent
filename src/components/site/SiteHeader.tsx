@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { navLinks } from "@/lib/company";
 import { ActionLink } from "./primitives";
+import badgeLogo from "@/assets/antofity-badge.png";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -26,18 +27,14 @@ export function SiteHeader() {
       )}
     >
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-6 px-5 py-4 sm:px-8">
-        <Link to="/" className="group flex items-center gap-3" onClick={() => setOpen(false)}>
-          <span className="relative grid size-9 place-items-center rounded-sm bg-primary text-primary-foreground shadow-glow">
-            <span className="font-display text-base font-bold leading-none">A</span>
-          </span>
-          <span className="leading-tight">
-            <span className="block font-display text-sm font-bold tracking-[0.16em] text-on-dark">
-              ANTOFITY
-            </span>
-            <span className="block font-mono text-[0.6rem] font-medium tracking-[0.3em] text-on-dark-muted">
-              CONCEPTS
-            </span>
-          </span>
+        <Link to="/" className="flex items-center" onClick={() => setOpen(false)}>
+          <img
+            src={badgeLogo}
+            alt="Antofity Concepts"
+            className="h-11 w-auto sm:h-12"
+            width={924}
+            height={480}
+          />
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
