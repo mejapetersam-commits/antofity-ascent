@@ -16,6 +16,8 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as WhyAntofityRouteImport } from './routes/why-antofity'
+import { Route as AdminCatalogueRouteImport } from './routes/admin/catalogue'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +54,16 @@ const WhyAntofityRoute = WhyAntofityRouteImport.update({
   path: '/why-antofity',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCatalogueRoute = AdminCatalogueRouteImport.update({
+  id: '/admin/catalogue',
+  path: '/admin/catalogue',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +73,8 @@ export interface FileRoutesByFullPath {
   '/industries': typeof IndustriesRoute
   '/solutions': typeof SolutionsRoute
   '/why-antofity': typeof WhyAntofityRoute
+  '/admin/catalogue': typeof AdminCatalogueRoute
+  '/admin/login': typeof AdminLoginRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +84,8 @@ export interface FileRoutesByTo {
   '/industries': typeof IndustriesRoute
   '/solutions': typeof SolutionsRoute
   '/why-antofity': typeof WhyAntofityRoute
+  '/admin/catalogue': typeof AdminCatalogueRoute
+  '/admin/login': typeof AdminLoginRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +96,8 @@ export interface FileRoutesById {
   '/industries': typeof IndustriesRoute
   '/solutions': typeof SolutionsRoute
   '/why-antofity': typeof WhyAntofityRoute
+  '/admin/catalogue': typeof AdminCatalogueRoute
+  '/admin/login': typeof AdminLoginRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +109,8 @@ export interface FileRouteTypes {
     | '/industries'
     | '/solutions'
     | '/why-antofity'
+    | '/admin/catalogue'
+    | '/admin/login'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +120,8 @@ export interface FileRouteTypes {
     | '/industries'
     | '/solutions'
     | '/why-antofity'
+    | '/admin/catalogue'
+    | '/admin/login'
   id:
     | '__root__'
     | '/'
@@ -109,6 +131,8 @@ export interface FileRouteTypes {
     | '/industries'
     | '/solutions'
     | '/why-antofity'
+    | '/admin/catalogue'
+    | '/admin/login'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,6 +143,8 @@ export interface RootRouteChildren {
   IndustriesRoute: typeof IndustriesRoute
   SolutionsRoute: typeof SolutionsRoute
   WhyAntofityRoute: typeof WhyAntofityRoute
+  AdminCatalogueRoute: typeof AdminCatalogueRoute
+  AdminLoginRoute: typeof AdminLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -172,6 +198,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WhyAntofityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/catalogue': {
+      id: '/admin/catalogue'
+      path: '/admin/catalogue'
+      fullPath: '/admin/catalogue'
+      preLoaderRoute: typeof AdminCatalogueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -183,6 +223,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndustriesRoute: IndustriesRoute,
   SolutionsRoute: SolutionsRoute,
   WhyAntofityRoute: WhyAntofityRoute,
+  AdminCatalogueRoute: AdminCatalogueRoute,
+  AdminLoginRoute: AdminLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
