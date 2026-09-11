@@ -31,7 +31,7 @@ function Contact() {
       <PageHero
         eyebrow="Contact"
         title="Let's Talk."
-        intro="Tell us what you're running — we'll come back with a clear scope."
+        intro="Tell us what you're running. We'll come back with a clear scope."
       />
 
       <Section tone="white">

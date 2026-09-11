@@ -10,7 +10,7 @@ export function SiteFooter() {
         <div className="md:col-span-1">
           <img
             src={lockupLogo}
-            alt="Antofity Concepts — First class digital strategies"
+            alt="Antofity Concepts: First class digital strategies"
             className="h-16 w-auto"
             width={930}
             height={560}

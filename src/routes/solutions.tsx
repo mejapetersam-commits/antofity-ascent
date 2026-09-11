@@ -31,7 +31,7 @@ function Solutions() {
       <PageHero
         eyebrow="Solutions"
         title="Four Capabilities. One Partner."
-        intro="Infrastructure, hardware, communications and managed IT — delivered end to end."
+        intro="Infrastructure, hardware, communications and managed IT, delivered end to end."
       />
 
       {solutions.map((s, i) => (

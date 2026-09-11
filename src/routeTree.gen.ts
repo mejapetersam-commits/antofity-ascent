@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as SolutionsRouteImport } from './routes/solutions'
@@ -24,6 +25,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CatalogueRoute = CatalogueRouteImport.update({
+  id: '/catalogue',
+  path: '/catalogue',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -50,6 +56,7 @@ const WhyAntofityRoute = WhyAntofityRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/catalogue': typeof CatalogueRoute
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/solutions': typeof SolutionsRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/catalogue': typeof CatalogueRoute
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/solutions': typeof SolutionsRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/catalogue': typeof CatalogueRoute
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/solutions': typeof SolutionsRoute
@@ -75,14 +84,27 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/about' | '/contact' | '/industries' | '/solutions' | '/why-antofity'
+    | '/'
+    | '/about'
+    | '/catalogue'
+    | '/contact'
+    | '/industries'
+    | '/solutions'
+    | '/why-antofity'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/about' | '/contact' | '/industries' | '/solutions' | '/why-antofity'
+    | '/'
+    | '/about'
+    | '/catalogue'
+    | '/contact'
+    | '/industries'
+    | '/solutions'
+    | '/why-antofity'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/catalogue'
     | '/contact'
     | '/industries'
     | '/solutions'
@@ -92,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  CatalogueRoute: typeof CatalogueRoute
   ContactRoute: typeof ContactRoute
   IndustriesRoute: typeof IndustriesRoute
   SolutionsRoute: typeof SolutionsRoute
@@ -112,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catalogue': {
+      id: '/catalogue'
+      path: '/catalogue'
+      fullPath: '/catalogue'
+      preLoaderRoute: typeof CatalogueRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -148,6 +178,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  CatalogueRoute: CatalogueRoute,
   ContactRoute: ContactRoute,
   IndustriesRoute: IndustriesRoute,
   SolutionsRoute: SolutionsRoute,

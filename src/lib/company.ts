@@ -18,6 +18,7 @@ export const navLinks = [
   { label: "About", to: "/about" },
   { label: "Solutions", to: "/solutions" },
   { label: "Industries", to: "/industries" },
+  { label: "Catalogue", to: "/catalogue" },
   { label: "Why Antofity", to: "/why-antofity" },
   { label: "Contact", to: "/contact" },
 ] as const;
@@ -28,7 +29,7 @@ export const solutions = [
     slug: "network-infrastructure",
     title: "Network & Infrastructure",
     summary:
-      "Seamless integration across employees, customers, partners and suppliers — designed to leverage existing IT investments and minimise operational and security risk.",
+      "Seamless integration across employees, customers, partners and suppliers, designed to leverage existing IT investments and minimise operational and security risk.",
     capabilities: [
       "Architecture Design",
       "Systems Integration",
@@ -44,7 +45,7 @@ export const solutions = [
     slug: "hardware",
     title: "Hardware Sales & Support",
     summary:
-      "A technology procurement, deployment and support partner — from specification through to lifecycle maintenance.",
+      "A technology procurement, deployment and support partner, from specification through to lifecycle maintenance.",
     capabilities: [
       "Switches, Routers, Firewalls, Access Points",
       "PCs, Laptops, Tablets, Servers, Storage",

@@ -38,7 +38,7 @@ const mvg = [
   {
     icon: Flag,
     heading: "Goal",
-    body: "Sustained growth — expanding capability to meet what clients need next.",
+    body: "Sustained growth, expanding capability to meet what clients need next.",
   },
 ];
 
