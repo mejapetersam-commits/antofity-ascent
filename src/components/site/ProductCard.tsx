@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { PackageSearch } from "lucide-react";
 import type { CatalogueItem } from "@/lib/catalogue-server";
+import { toDirectImageUrl } from "@/lib/drive-image";
 
 export function ProductCard({ item }: { item: CatalogueItem }) {
   return (
@@ -11,7 +12,7 @@ export function ProductCard({ item }: { item: CatalogueItem }) {
     >
       {item.imageUrl ? (
         <img
-          src={item.imageUrl}
+          src={toDirectImageUrl(item.imageUrl)}
           alt={item.name}
           className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105"
           loading="lazy"

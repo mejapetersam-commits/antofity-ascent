@@ -4,6 +4,7 @@ import { PageHero, Section } from "@/components/site/primitives";
 import { CtaBand } from "@/components/site/CtaBand";
 import { getCatalogueItem } from "@/lib/catalogue-server";
 import { company } from "@/lib/company";
+import { toDirectImageUrl } from "@/lib/drive-image";
 
 export const Route = createFileRoute("/catalogue/$itemId")({
   loader: async ({ params }) => {
@@ -63,7 +64,7 @@ function ProductDetail() {
         <div className="mt-8 grid gap-10 lg:grid-cols-2">
           {item.imageUrl ? (
             <img
-              src={item.imageUrl}
+              src={toDirectImageUrl(item.imageUrl)}
               alt={item.name}
               className="w-full rounded-sm border border-border object-cover"
             />

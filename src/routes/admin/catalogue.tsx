@@ -189,10 +189,14 @@ function AdminCatalogue() {
                 id="imageUrl"
                 type="url"
                 className={`mt-1.5 ${field}`}
-                placeholder="https://..."
+                placeholder="https://... or a Google Drive share link"
                 value={draft.imageUrl}
                 onChange={(e) => setDraft({ ...draft, imageUrl: e.target.value })}
               />
+              <p className="mt-1.5 text-xs text-muted-foreground">
+                You can paste a Google Drive "Share" link directly — just make sure the file is
+                shared as "Anyone with the link" (Viewer).
+              </p>
             </div>
             <div className="sm:col-span-2">
               <label className={label} htmlFor="description">
