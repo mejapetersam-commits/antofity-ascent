@@ -18,6 +18,7 @@ import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as WhyAntofityRouteImport } from './routes/why-antofity'
 import { Route as AdminCatalogueRouteImport } from './routes/admin/catalogue'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as CatalogueItemIdRouteImport } from './routes/catalogue.$itemId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -64,40 +65,48 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CatalogueItemIdRoute = CatalogueItemIdRouteImport.update({
+  id: '/$itemId',
+  path: '/$itemId',
+  getParentRoute: () => CatalogueRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/catalogue': typeof CatalogueRoute
+  '/catalogue': typeof CatalogueRouteWithChildren
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/solutions': typeof SolutionsRoute
   '/why-antofity': typeof WhyAntofityRoute
   '/admin/catalogue': typeof AdminCatalogueRoute
   '/admin/login': typeof AdminLoginRoute
+  '/catalogue/$itemId': typeof CatalogueItemIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/catalogue': typeof CatalogueRoute
+  '/catalogue': typeof CatalogueRouteWithChildren
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/solutions': typeof SolutionsRoute
   '/why-antofity': typeof WhyAntofityRoute
   '/admin/catalogue': typeof AdminCatalogueRoute
   '/admin/login': typeof AdminLoginRoute
+  '/catalogue/$itemId': typeof CatalogueItemIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/catalogue': typeof CatalogueRoute
+  '/catalogue': typeof CatalogueRouteWithChildren
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/solutions': typeof SolutionsRoute
   '/why-antofity': typeof WhyAntofityRoute
   '/admin/catalogue': typeof AdminCatalogueRoute
   '/admin/login': typeof AdminLoginRoute
+  '/catalogue/$itemId': typeof CatalogueItemIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/why-antofity'
     | '/admin/catalogue'
     | '/admin/login'
+    | '/catalogue/$itemId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/why-antofity'
     | '/admin/catalogue'
     | '/admin/login'
+    | '/catalogue/$itemId'
   id:
     | '__root__'
     | '/'
@@ -133,12 +144,13 @@ export interface FileRouteTypes {
     | '/why-antofity'
     | '/admin/catalogue'
     | '/admin/login'
+    | '/catalogue/$itemId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  CatalogueRoute: typeof CatalogueRoute
+  CatalogueRoute: typeof CatalogueRouteWithChildren
   ContactRoute: typeof ContactRoute
   IndustriesRoute: typeof IndustriesRoute
   SolutionsRoute: typeof SolutionsRoute
@@ -212,13 +224,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/catalogue/$itemId': {
+      id: '/catalogue/$itemId'
+      path: '/$itemId'
+      fullPath: '/catalogue/$itemId'
+      preLoaderRoute: typeof CatalogueItemIdRouteImport
+      parentRoute: typeof CatalogueRoute
+    }
   }
 }
+
+interface CatalogueRouteChildren {
+  CatalogueItemIdRoute: typeof CatalogueItemIdRoute
+}
+
+const CatalogueRouteChildren: CatalogueRouteChildren = {
+  CatalogueItemIdRoute: CatalogueItemIdRoute,
+}
+
+const CatalogueRouteWithChildren = CatalogueRoute._addFileChildren(
+  CatalogueRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  CatalogueRoute: CatalogueRoute,
+  CatalogueRoute: CatalogueRouteWithChildren,
   ContactRoute: ContactRoute,
   IndustriesRoute: IndustriesRoute,
   SolutionsRoute: SolutionsRoute,

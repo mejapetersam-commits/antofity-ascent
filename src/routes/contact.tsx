@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { PageHero, Section, SectionHeading } from "@/components/site/primitives";
 import { ContactForm } from "@/components/site/ContactForm";
 import { company } from "@/lib/company";
@@ -71,6 +71,19 @@ function Contact() {
                   className="text-sm font-semibold text-foreground/90 hover:text-gold"
                 >
                   {company.email}
+                </a>
+              </li>
+              <li className="flex gap-4">
+                <span className="grid size-10 shrink-0 place-items-center rounded-sm border border-gold/30 bg-void text-gold">
+                  <MessageCircle className="size-4" aria-hidden="true" />
+                </span>
+                <a
+                  href={company.whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-semibold text-foreground/90 hover:text-gold"
+                >
+                  Chat on WhatsApp — {company.whatsapp}
                 </a>
               </li>
             </ul>

@@ -4,6 +4,10 @@ export const company = {
   founded: "September 2017",
   phone: "0722 844 134",
   phoneHref: "tel:+254722844134",
+  whatsapp: "0722 844 134",
+  whatsappHref:
+    "https://wa.me/254722844134?text=" +
+    encodeURIComponent("Hi Antofity Concepts, I'd like to enquire about your products/services."),
   email: "info@antofityconcepts.co.ke",
   address: [
     "Office No. 99, Keneth Matiba Road",

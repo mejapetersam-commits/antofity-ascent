@@ -1,15 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Headphones, Network, Server, ShieldCheck } from "lucide-react";
 import heroImage from "@/assets/hero-infrastructure.jpg";
-import { ActionLink, Eyebrow } from "@/components/site/primitives";
+import { ActionLink, Eyebrow, Section, SectionHeading } from "@/components/site/primitives";
 import { CtaBand } from "@/components/site/CtaBand";
+import { ProductCard } from "@/components/site/ProductCard";
 import { pillars } from "@/lib/company";
+import { getCatalogueItems, type CatalogueItem } from "@/lib/catalogue-server";
 
 const title = "Antofity Concepts | ICT Solutions Company in Nairobi, Kenya";
 const description =
   "Antofity Concepts delivers end-to-end ICT solutions in Kenya: network infrastructure, structured cabling, CCTV, IP telephony, hardware supply and managed IT services.";
 
 export const Route = createFileRoute("/")({
+  loader: async () => {
+    try {
+      const items = await getCatalogueItems();
+      return { items: items.slice(0, 6) };
+    } catch {
+      return { items: [] as CatalogueItem[] };
+    }
+  },
   head: () => ({
     meta: [
       { title },
@@ -34,6 +44,8 @@ export const Route = createFileRoute("/")({
 const pillarIcons = [Network, Server, Headphones, ShieldCheck];
 
 function Home() {
+  const { items } = Route.useLoaderData();
+
   return (
     <>
       {/* HERO */}
@@ -119,6 +131,27 @@ function Home() {
           })}
         </div>
       </section>
+
+      {items.length > 0 ? (
+        <Section tone="white">
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <SectionHeading
+              eyebrow="Catalogue"
+              title="Hardware in stock, ready to ship."
+              intro="A glance at what's currently available. Tap a product for full specs and pricing."
+            />
+            <ActionLink to="/catalogue" variant="outlineDark" size="sm">
+              View full catalogue <ArrowRight className="size-4" aria-hidden="true" />
+            </ActionLink>
+          </div>
+
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {items.map((item) => (
+              <ProductCard key={item.id} item={item} />
+            ))}
+          </div>
+        </Section>
+      ) : null}
 
       <CtaBand />
     </>

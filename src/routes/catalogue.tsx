@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PackageSearch } from "lucide-react";
 import { PageHero, Section } from "@/components/site/primitives";
 import { CtaBand } from "@/components/site/CtaBand";
+import { ProductCard } from "@/components/site/ProductCard";
 import { getCatalogueItems, type CatalogueItem } from "@/lib/catalogue-server";
 
 const title = "Catalogue | Antofity Concepts";
@@ -62,42 +63,7 @@ function Catalogue() {
         <Section tone="white">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {items.map((item) => (
-              <article
-                key={item.id}
-                className="overflow-hidden rounded-sm border border-border bg-card shadow-card"
-              >
-                {item.imageUrl ? (
-                  <img
-                    src={item.imageUrl}
-                    alt={item.name}
-                    className="h-48 w-full object-cover"
-                    loading="lazy"
-                  />
-                ) : null}
-                <div className="p-6">
-                  {item.category ? (
-                    <p className="eyebrow text-muted-foreground">{item.category}</p>
-                  ) : null}
-                  <h3 className="mt-2 text-lg font-bold text-foreground">{item.name}</h3>
-                  {item.description ? (
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {item.description}
-                    </p>
-                  ) : null}
-                  <div className="mt-4 flex items-center justify-between">
-                    {item.price ? (
-                      <span className="text-sm font-bold text-gold">{item.price}</span>
-                    ) : (
-                      <span />
-                    )}
-                    {!item.inStock ? (
-                      <span className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">
-                        Out of stock
-                      </span>
-                    ) : null}
-                  </div>
-                </div>
-              </article>
+              <ProductCard key={item.id} item={item} />
             ))}
           </div>
         </Section>

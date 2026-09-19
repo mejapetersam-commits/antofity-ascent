@@ -36,6 +36,20 @@ export const getCatalogueItems = createServerFn({ method: "GET" }).handler(async
   return rows as unknown as CatalogueItem[];
 });
 
+export const getCatalogueItem = createServerFn({ method: "GET" })
+  .validator((data: unknown) => data as { id: number })
+  .handler(async ({ data }) => {
+    const rows = await sql()`
+      select
+        id, name, description, price, category,
+        image_url as "imageUrl", in_stock as "inStock",
+        sort_order as "sortOrder", created_at as "createdAt"
+      from catalogue_items
+      where id = ${data.id}
+    `;
+    return (rows[0] as CatalogueItem | undefined) ?? null;
+  });
+
 export const createCatalogueItem = createServerFn({ method: "POST" })
   .validator((data: unknown) => data as CatalogueItemInput)
   .handler(async ({ data }) => {
