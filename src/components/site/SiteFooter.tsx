@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { company, navLinks, solutions } from "@/lib/company";
 import lockupLogo from "@/assets/antofity-lockup.png";
 
@@ -70,6 +70,26 @@ export function SiteFooter() {
               </a>
             </li>
           </ul>
+          <div className="mt-5 flex gap-3">
+            <a
+              href={company.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Antofity Concepts on Instagram"
+              className="grid size-9 place-items-center rounded-full border border-on-dark/20 text-on-dark-muted transition-colors hover:border-gold hover:text-gold"
+            >
+              <Instagram className="size-4" aria-hidden="true" />
+            </a>
+            <a
+              href={company.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Antofity Concepts on Facebook"
+              className="grid size-9 place-items-center rounded-full border border-on-dark/20 text-on-dark-muted transition-colors hover:border-gold hover:text-gold"
+            >
+              <Facebook className="size-4" aria-hidden="true" />
+            </a>
+          </div>
         </address>
       </div>
 

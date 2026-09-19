@@ -14,7 +14,6 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { WhatsAppButton } from "@/components/site/WhatsAppButton";
-import { ChatWidget } from "@/components/site/ChatWidget";
 import { CartProvider } from "@/lib/cart-context";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -161,7 +160,6 @@ function RootComponent() {
         </main>
         <SiteFooter />
         <WhatsAppButton />
-        <ChatWidget />
         <Toaster position="bottom-center" />
       </CartProvider>
     </QueryClientProvider>

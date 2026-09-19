@@ -15,6 +15,8 @@ export const company = {
     "P.O. Box 50975-00100, GPO",
     "Nairobi, Kenya",
   ],
+  instagram: "https://www.instagram.com/antofityconcepts_africa/",
+  facebook: "https://www.facebook.com/profile.php?id=100063782603047",
 };
 
 export const navLinks = [
