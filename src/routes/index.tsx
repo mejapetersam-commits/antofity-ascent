@@ -4,6 +4,7 @@ import heroImage from "@/assets/hero-infrastructure.jpg";
 import { ActionLink, Eyebrow, Section, SectionHeading } from "@/components/site/primitives";
 import { CtaBand } from "@/components/site/CtaBand";
 import { ProductCard } from "@/components/site/ProductCard";
+import { Testimonials } from "@/components/site/Testimonials";
 import { pillars } from "@/lib/company";
 import { getCatalogueItems, type CatalogueItem } from "@/lib/catalogue-server";
 
@@ -152,6 +153,10 @@ function Home() {
           </div>
         </Section>
       ) : null}
+
+      <Section tone="dark">
+        <Testimonials />
+      </Section>
 
       <CtaBand />
     </>

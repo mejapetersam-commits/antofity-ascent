@@ -33,6 +33,41 @@ export const catalogueCategories = [
   { label: "Adapters", value: "Adapters" },
 ] as const;
 
+export const testimonials = [
+  {
+    name: "Muiruri Njuguna",
+    quote:
+      "I found him online, chat him for the first time, directed me to his shop, and got the litebeam and all other accessories the indicated price, plus a very excellent after sale service. Very truthful and even sends commodities remotely all the way to Nyahururu, without inconveniences. God bless you sir.",
+  },
+  {
+    name: "Joseph Mwangi",
+    quote:
+      "I ordered SFP to RJ45 modules, process was smooth and items delivered quite fast. I highly recommend this seller.",
+  },
+  {
+    name: "Sila Dennis",
+    quote: "Best sales services, I recommend Antofity Concepts.",
+  },
+  {
+    name: "Sam Biosys",
+    quote:
+      "I'm happy with their service and would recommend this shop to others looking for affordable goods and timely delivery.",
+  },
+  {
+    name: "Jeffrey Wanjohi",
+    quote:
+      "I am a happy client, all the gadgets I bought are legit and best customer service offered. Always Antofity Concepts.",
+  },
+  {
+    name: "Appleville Center",
+    quote: "Reliable, highly recommend.",
+  },
+  {
+    name: "Kenny",
+    quote: "Great service and quick. Recommended.",
+  },
+] as const;
+
 export const solutions = [
   {
     number: "01",
