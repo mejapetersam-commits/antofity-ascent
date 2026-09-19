@@ -12,9 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as SolutionsRouteImport } from './routes/solutions'
-import { Route as WhyAntofityRouteImport } from './routes/why-antofity'
 import { Route as AdminCatalogueRouteImport } from './routes/admin/catalogue'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as CatalogueIndexRouteImport } from './routes/catalogue/index'
@@ -35,19 +33,9 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndustriesRoute = IndustriesRouteImport.update({
-  id: '/industries',
-  path: '/industries',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SolutionsRoute = SolutionsRouteImport.update({
   id: '/solutions',
   path: '/solutions',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WhyAntofityRoute = WhyAntofityRouteImport.update({
-  id: '/why-antofity',
-  path: '/why-antofity',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminCatalogueRoute = AdminCatalogueRouteImport.update({
@@ -75,9 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/industries': typeof IndustriesRoute
   '/solutions': typeof SolutionsRoute
-  '/why-antofity': typeof WhyAntofityRoute
   '/admin/catalogue': typeof AdminCatalogueRoute
   '/admin/login': typeof AdminLoginRoute
   '/catalogue/$itemId': typeof CatalogueItemIdRoute
@@ -87,9 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/industries': typeof IndustriesRoute
   '/solutions': typeof SolutionsRoute
-  '/why-antofity': typeof WhyAntofityRoute
   '/admin/catalogue': typeof AdminCatalogueRoute
   '/admin/login': typeof AdminLoginRoute
   '/catalogue/$itemId': typeof CatalogueItemIdRoute
@@ -100,9 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/industries': typeof IndustriesRoute
   '/solutions': typeof SolutionsRoute
-  '/why-antofity': typeof WhyAntofityRoute
   '/admin/catalogue': typeof AdminCatalogueRoute
   '/admin/login': typeof AdminLoginRoute
   '/catalogue/$itemId': typeof CatalogueItemIdRoute
@@ -114,9 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
-    | '/industries'
     | '/solutions'
-    | '/why-antofity'
     | '/admin/catalogue'
     | '/admin/login'
     | '/catalogue/$itemId'
@@ -126,9 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
-    | '/industries'
     | '/solutions'
-    | '/why-antofity'
     | '/admin/catalogue'
     | '/admin/login'
     | '/catalogue/$itemId'
@@ -138,9 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
-    | '/industries'
     | '/solutions'
-    | '/why-antofity'
     | '/admin/catalogue'
     | '/admin/login'
     | '/catalogue/$itemId'
@@ -151,9 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
-  IndustriesRoute: typeof IndustriesRoute
   SolutionsRoute: typeof SolutionsRoute
-  WhyAntofityRoute: typeof WhyAntofityRoute
   AdminCatalogueRoute: typeof AdminCatalogueRoute
   AdminLoginRoute: typeof AdminLoginRoute
   CatalogueItemIdRoute: typeof CatalogueItemIdRoute
@@ -183,25 +157,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/industries': {
-      id: '/industries'
-      path: '/industries'
-      fullPath: '/industries'
-      preLoaderRoute: typeof IndustriesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/solutions': {
       id: '/solutions'
       path: '/solutions'
       fullPath: '/solutions'
       preLoaderRoute: typeof SolutionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/why-antofity': {
-      id: '/why-antofity'
-      path: '/why-antofity'
-      fullPath: '/why-antofity'
-      preLoaderRoute: typeof WhyAntofityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/catalogue': {
@@ -239,9 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
-  IndustriesRoute: IndustriesRoute,
   SolutionsRoute: SolutionsRoute,
-  WhyAntofityRoute: WhyAntofityRoute,
   AdminCatalogueRoute: AdminCatalogueRoute,
   AdminLoginRoute: AdminLoginRoute,
   CatalogueItemIdRoute: CatalogueItemIdRoute,

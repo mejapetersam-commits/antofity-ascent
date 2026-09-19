@@ -20,10 +20,8 @@ export const company = {
 export const navLinks = [
   { label: "Home", to: "/" },
   { label: "Catalogue", to: "/catalogue" },
-  { label: "About", to: "/about" },
   { label: "Solutions", to: "/solutions" },
-  { label: "Industries", to: "/industries" },
-  { label: "Why Antofity", to: "/why-antofity" },
+  { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
 ] as const;
 
