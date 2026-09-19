@@ -1,11 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, Headphones, Network, Server, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-infrastructure.jpg";
 import { ActionLink, Eyebrow, Section, SectionHeading } from "@/components/site/primitives";
 import { CtaBand } from "@/components/site/CtaBand";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Testimonials } from "@/components/site/Testimonials";
-import { pillars } from "@/lib/company";
 import { getCatalogueItems, type CatalogueItem } from "@/lib/catalogue-server";
 
 const title = "Antofity Concepts | ICT Solutions Company in Nairobi, Kenya";
@@ -41,8 +40,6 @@ export const Route = createFileRoute("/")({
   }),
   component: Home,
 });
-
-const pillarIcons = [Network, Server, Headphones, ShieldCheck];
 
 function Home() {
   const { items } = Route.useLoaderData();
@@ -96,14 +93,10 @@ function Home() {
         <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
           <div className="max-w-2xl reveal">
             <Eyebrow dark>Nairobi, Kenya · Est. 2017</Eyebrow>
-            <h1 className="mt-4 text-2xl font-bold leading-snug text-on-dark sm:text-3xl md:text-4xl">
-              End-to-end ICT infrastructure,{" "}
-              <span className="text-gradient-gold">delivered fast.</span>
-            </h1>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-on-dark-muted sm:text-base">
+            <h1 className="mt-4 max-w-md text-base font-medium leading-relaxed text-on-dark-muted sm:text-lg">
               Network infrastructure, hardware supply and managed IT for organizations that can't
               afford downtime.
-            </p>
+            </h1>
             <div className="mt-7 flex flex-wrap gap-3">
               <ActionLink to="/contact">
                 Talk to us <ArrowRight className="size-4" aria-hidden="true" />
@@ -115,23 +108,6 @@ function Home() {
           </div>
         </div>
         <div className="flow-line absolute inset-x-0 bottom-0 h-px bg-gold/10" aria-hidden="true" />
-      </section>
-
-      {/* CAPABILITY STRIP */}
-      <section className="border-b border-border bg-card py-14">
-        <div className="mx-auto grid max-w-7xl gap-8 px-5 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">
-          {pillars.slice(0, 4).map((p, i) => {
-            const Icon = pillarIcons[i] ?? Network;
-            return (
-              <div key={p.title} className="flex items-start gap-4">
-                <Icon className="mt-0.5 size-5 shrink-0 text-gold" aria-hidden="true" />
-                <div>
-                  <h3 className="text-sm font-bold text-foreground">{p.title}</h3>
-                </div>
-              </div>
-            );
-          })}
-        </div>
       </section>
 
       {items.length > 0 ? (
