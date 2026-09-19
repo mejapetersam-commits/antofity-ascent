@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
   loader: async () => {
     try {
       const items = await getCatalogueItems();
-      return { items: items.slice(0, 6) };
+      return { items: items.slice(0, 8) };
     } catch {
       return { items: [] as CatalogueItem[] };
     }
@@ -50,7 +50,7 @@ function Home() {
   return (
     <>
       {/* HERO */}
-      <section className="surface-dark relative isolate flex min-h-screen items-center overflow-hidden pt-24 pb-16">
+      <section className="surface-dark relative isolate flex items-center overflow-hidden pt-28 pb-14 md:pt-32 md:pb-16">
         <img
           src={heroImage}
           alt="Enterprise data centre aisle with server racks and fibre cabling"
@@ -96,14 +96,15 @@ function Home() {
         <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
           <div className="max-w-2xl reveal">
             <Eyebrow dark>Nairobi, Kenya · Est. 2017</Eyebrow>
-            <h1 className="mt-6 text-4xl font-bold leading-[1.05] text-on-dark sm:text-5xl md:text-6xl lg:text-7xl">
-              Technology, <span className="text-gradient-gold">built to last.</span>
+            <h1 className="mt-4 text-2xl font-bold leading-snug text-on-dark sm:text-3xl md:text-4xl">
+              End-to-end ICT infrastructure,{" "}
+              <span className="text-gradient-gold">delivered fast.</span>
             </h1>
-            <p className="mt-6 max-w-md text-base leading-relaxed text-on-dark-muted">
-              End-to-end ICT infrastructure, hardware and managed IT for organizations that can't
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-on-dark-muted sm:text-base">
+              Network infrastructure, hardware supply and managed IT for organizations that can't
               afford downtime.
             </p>
-            <div className="mt-9 flex flex-wrap gap-3">
+            <div className="mt-7 flex flex-wrap gap-3">
               <ActionLink to="/contact">
                 Talk to us <ArrowRight className="size-4" aria-hidden="true" />
               </ActionLink>
@@ -146,7 +147,7 @@ function Home() {
             </ActionLink>
           </div>
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {items.map((item) => (
               <ProductCard key={item.id} item={item} />
             ))}

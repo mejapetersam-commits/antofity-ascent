@@ -38,6 +38,8 @@ function emptyDraft() {
     name: "",
     description: "",
     price: "",
+    originalPrice: "",
+    features: "",
     category: "",
     imageUrl: "",
     inStock: true,
@@ -65,6 +67,8 @@ function AdminCatalogue() {
       name: item.name,
       description: item.description ?? "",
       price: item.price ?? "",
+      originalPrice: item.originalPrice ?? "",
+      features: item.features ?? "",
       category: item.category ?? "",
       imageUrl: item.imageUrl ?? "",
       inStock: item.inStock,
@@ -81,6 +85,8 @@ function AdminCatalogue() {
         name: draft.name,
         description: draft.description || null,
         price: draft.price || null,
+        originalPrice: draft.originalPrice || null,
+        features: draft.features || null,
         category: draft.category || null,
         imageUrl: draft.imageUrl || null,
         inStock: draft.inStock,
@@ -176,9 +182,21 @@ function AdminCatalogue() {
               <input
                 id="price"
                 className={`mt-1.5 ${field}`}
-                placeholder="e.g. KES 12,000"
+                placeholder="e.g. KSh 419,900"
                 value={draft.price}
                 onChange={(e) => setDraft({ ...draft, price: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className={label} htmlFor="originalPrice">
+                Original price (optional)
+              </label>
+              <input
+                id="originalPrice"
+                className={`mt-1.5 ${field}`}
+                placeholder="e.g. KSh 425,000 — shown struck through"
+                value={draft.originalPrice}
+                onChange={(e) => setDraft({ ...draft, originalPrice: e.target.value })}
               />
             </div>
             <div>
@@ -199,16 +217,37 @@ function AdminCatalogue() {
               </p>
             </div>
             <div className="sm:col-span-2">
+              <label className={label} htmlFor="features">
+                Features (one per line)
+              </label>
+              <textarea
+                id="features"
+                rows={4}
+                className={`mt-1.5 ${field}`}
+                placeholder={
+                  "24 PoE+ Gigabit ports\n4 × 10G SFP+ uplinks\n128 Gbps switching capacity"
+                }
+                value={draft.features}
+                onChange={(e) => setDraft({ ...draft, features: e.target.value })}
+              />
+              <p className="mt-1.5 text-xs text-muted-foreground">
+                Shown as a short bullet list at the top of the product page, above the fold.
+              </p>
+            </div>
+            <div className="sm:col-span-2">
               <label className={label} htmlFor="description">
-                Description
+                Full description
               </label>
               <textarea
                 id="description"
-                rows={3}
+                rows={5}
                 className={`mt-1.5 ${field}`}
                 value={draft.description}
                 onChange={(e) => setDraft({ ...draft, description: e.target.value })}
               />
+              <p className="mt-1.5 text-xs text-muted-foreground">
+                Shown in the "Description" section further down the product page.
+              </p>
             </div>
             <div>
               <label className={label} htmlFor="sortOrder">

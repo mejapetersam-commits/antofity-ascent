@@ -7,6 +7,8 @@ export type CatalogueItem = {
   name: string;
   description: string | null;
   price: string | null;
+  originalPrice: string | null;
+  features: string | null;
   category: string | null;
   imageUrl: string | null;
   inStock: boolean;
@@ -18,6 +20,8 @@ type CatalogueItemInput = {
   name: string;
   description?: string | null;
   price?: string | null;
+  originalPrice?: string | null;
+  features?: string | null;
   category?: string | null;
   imageUrl?: string | null;
   inStock?: boolean;
@@ -27,7 +31,8 @@ type CatalogueItemInput = {
 export const getCatalogueItems = createServerFn({ method: "GET" }).handler(async () => {
   const rows = await sql()`
     select
-      id, name, description, price, category,
+      id, name, description, price,
+      original_price as "originalPrice", features, category,
       image_url as "imageUrl", in_stock as "inStock",
       sort_order as "sortOrder", created_at as "createdAt"
     from catalogue_items
@@ -41,7 +46,8 @@ export const getCatalogueItem = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const rows = await sql()`
       select
-        id, name, description, price, category,
+        id, name, description, price,
+        original_price as "originalPrice", features, category,
         image_url as "imageUrl", in_stock as "inStock",
         sort_order as "sortOrder", created_at as "createdAt"
       from catalogue_items
@@ -56,11 +62,13 @@ export const createCatalogueItem = createServerFn({ method: "POST" })
     await requireAdmin();
     const rows = await sql()`
       insert into catalogue_items
-        (name, description, price, category, image_url, in_stock, sort_order)
+        (name, description, price, original_price, features, category, image_url, in_stock, sort_order)
       values (
         ${data.name},
         ${data.description ?? null},
         ${data.price ?? null},
+        ${data.originalPrice ?? null},
+        ${data.features ?? null},
         ${data.category ?? null},
         ${data.imageUrl ?? null},
         ${data.inStock ?? true},
@@ -80,6 +88,8 @@ export const updateCatalogueItem = createServerFn({ method: "POST" })
         name = ${data.name},
         description = ${data.description ?? null},
         price = ${data.price ?? null},
+        original_price = ${data.originalPrice ?? null},
+        features = ${data.features ?? null},
         category = ${data.category ?? null},
         image_url = ${data.imageUrl ?? null},
         in_stock = ${data.inStock ?? true},

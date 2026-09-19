@@ -4,6 +4,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { navLinks, catalogueCategories } from "@/lib/company";
 import { ActionLink } from "./primitives";
+import { CartSheet } from "./CartSheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -98,12 +99,12 @@ export function SiteHeader() {
           : "border-b border-transparent bg-void/40 backdrop-blur-sm",
       )}
     >
-      <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-6 px-5 py-4 sm:px-8">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 py-3 sm:px-8">
         <Link to="/" className="flex items-center" onClick={() => setOpen(false)}>
           <img
             src={badgeLogo}
             alt="Antofity Concepts"
-            className="h-11 w-auto sm:h-12"
+            className="h-14 w-auto sm:h-16"
             width={924}
             height={480}
           />
@@ -161,21 +162,24 @@ export function SiteHeader() {
           )}
         </nav>
 
-        <div className="hidden lg:block">
-          <ActionLink to="/contact" size="sm">
-            Talk to us
-          </ActionLink>
-        </div>
+        <div className="flex items-center gap-4">
+          <CartSheet />
+          <div className="hidden lg:block">
+            <ActionLink to="/contact" size="sm">
+              Talk to us
+            </ActionLink>
+          </div>
 
-        <button
-          type="button"
-          className="grid size-10 place-items-center rounded-sm border border-on-dark/20 text-on-dark lg:hidden"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
+          <button
+            type="button"
+            className="grid size-10 place-items-center rounded-sm border border-on-dark/20 text-on-dark lg:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
+        </div>
       </div>
 
       {open ? (
