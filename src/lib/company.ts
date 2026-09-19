@@ -19,12 +19,20 @@ export const company = {
 
 export const navLinks = [
   { label: "Home", to: "/" },
+  { label: "Catalogue", to: "/catalogue" },
   { label: "About", to: "/about" },
   { label: "Solutions", to: "/solutions" },
   { label: "Industries", to: "/industries" },
-  { label: "Catalogue", to: "/catalogue" },
   { label: "Why Antofity", to: "/why-antofity" },
   { label: "Contact", to: "/contact" },
+] as const;
+
+export const catalogueCategories = [
+  { label: "Routers", value: "Routers" },
+  { label: "Switches", value: "Switches" },
+  { label: "Access Point", value: "Access Point" },
+  { label: "Security Cameras", value: "Security Cameras" },
+  { label: "Adapters", value: "Adapters" },
 ] as const;
 
 export const solutions = [

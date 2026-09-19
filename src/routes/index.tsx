@@ -106,8 +106,8 @@ function Home() {
               <ActionLink to="/contact">
                 Talk to us <ArrowRight className="size-4" aria-hidden="true" />
               </ActionLink>
-              <ActionLink to="/solutions" variant="outlineLight">
-                Our solutions
+              <ActionLink to="/catalogue" variant="outlineLight">
+                Our catalogue
               </ActionLink>
             </div>
           </div>
