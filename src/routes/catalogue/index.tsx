@@ -8,7 +8,7 @@ import { getCatalogueItems, type CatalogueItem } from "@/lib/catalogue-server";
 const title = "Catalogue | Antofity Concepts";
 const description = "Browse hardware and equipment available from Antofity Concepts.";
 
-export const Route = createFileRoute("/catalogue")({
+export const Route = createFileRoute("/catalogue/")({
   loader: async () => {
     try {
       const items = await getCatalogueItems();

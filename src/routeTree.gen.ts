@@ -11,14 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as WhyAntofityRouteImport } from './routes/why-antofity'
 import { Route as AdminCatalogueRouteImport } from './routes/admin/catalogue'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
-import { Route as CatalogueItemIdRouteImport } from './routes/catalogue.$itemId'
+import { Route as CatalogueIndexRouteImport } from './routes/catalogue/index'
+import { Route as CatalogueItemIdRouteImport } from './routes/catalogue/$itemId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,11 +28,6 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CatalogueRoute = CatalogueRouteImport.update({
-  id: '/catalogue',
-  path: '/catalogue',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -65,16 +60,20 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CatalogueIndexRoute = CatalogueIndexRouteImport.update({
+  id: '/catalogue/',
+  path: '/catalogue/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CatalogueItemIdRoute = CatalogueItemIdRouteImport.update({
-  id: '/$itemId',
-  path: '/$itemId',
-  getParentRoute: () => CatalogueRoute,
+  id: '/catalogue/$itemId',
+  path: '/catalogue/$itemId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/catalogue': typeof CatalogueRouteWithChildren
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/solutions': typeof SolutionsRoute
@@ -82,11 +81,11 @@ export interface FileRoutesByFullPath {
   '/admin/catalogue': typeof AdminCatalogueRoute
   '/admin/login': typeof AdminLoginRoute
   '/catalogue/$itemId': typeof CatalogueItemIdRoute
+  '/catalogue/': typeof CatalogueIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/catalogue': typeof CatalogueRouteWithChildren
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/solutions': typeof SolutionsRoute
@@ -94,12 +93,12 @@ export interface FileRoutesByTo {
   '/admin/catalogue': typeof AdminCatalogueRoute
   '/admin/login': typeof AdminLoginRoute
   '/catalogue/$itemId': typeof CatalogueItemIdRoute
+  '/catalogue': typeof CatalogueIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/catalogue': typeof CatalogueRouteWithChildren
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/solutions': typeof SolutionsRoute
@@ -107,13 +106,13 @@ export interface FileRoutesById {
   '/admin/catalogue': typeof AdminCatalogueRoute
   '/admin/login': typeof AdminLoginRoute
   '/catalogue/$itemId': typeof CatalogueItemIdRoute
+  '/catalogue/': typeof CatalogueIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
-    | '/catalogue'
     | '/contact'
     | '/industries'
     | '/solutions'
@@ -121,11 +120,11 @@ export interface FileRouteTypes {
     | '/admin/catalogue'
     | '/admin/login'
     | '/catalogue/$itemId'
+    | '/catalogue/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/catalogue'
     | '/contact'
     | '/industries'
     | '/solutions'
@@ -133,11 +132,11 @@ export interface FileRouteTypes {
     | '/admin/catalogue'
     | '/admin/login'
     | '/catalogue/$itemId'
+    | '/catalogue'
   id:
     | '__root__'
     | '/'
     | '/about'
-    | '/catalogue'
     | '/contact'
     | '/industries'
     | '/solutions'
@@ -145,18 +144,20 @@ export interface FileRouteTypes {
     | '/admin/catalogue'
     | '/admin/login'
     | '/catalogue/$itemId'
+    | '/catalogue/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  CatalogueRoute: typeof CatalogueRouteWithChildren
   ContactRoute: typeof ContactRoute
   IndustriesRoute: typeof IndustriesRoute
   SolutionsRoute: typeof SolutionsRoute
   WhyAntofityRoute: typeof WhyAntofityRoute
   AdminCatalogueRoute: typeof AdminCatalogueRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  CatalogueItemIdRoute: typeof CatalogueItemIdRoute
+  CatalogueIndexRoute: typeof CatalogueIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -173,13 +174,6 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/catalogue': {
-      id: '/catalogue'
-      path: '/catalogue'
-      fullPath: '/catalogue'
-      preLoaderRoute: typeof CatalogueRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -224,38 +218,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/catalogue/': {
+      id: '/catalogue/'
+      path: '/catalogue'
+      fullPath: '/catalogue/'
+      preLoaderRoute: typeof CatalogueIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/catalogue/$itemId': {
       id: '/catalogue/$itemId'
-      path: '/$itemId'
+      path: '/catalogue/$itemId'
       fullPath: '/catalogue/$itemId'
       preLoaderRoute: typeof CatalogueItemIdRouteImport
-      parentRoute: typeof CatalogueRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface CatalogueRouteChildren {
-  CatalogueItemIdRoute: typeof CatalogueItemIdRoute
-}
-
-const CatalogueRouteChildren: CatalogueRouteChildren = {
-  CatalogueItemIdRoute: CatalogueItemIdRoute,
-}
-
-const CatalogueRouteWithChildren = CatalogueRoute._addFileChildren(
-  CatalogueRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  CatalogueRoute: CatalogueRouteWithChildren,
   ContactRoute: ContactRoute,
   IndustriesRoute: IndustriesRoute,
   SolutionsRoute: SolutionsRoute,
   WhyAntofityRoute: WhyAntofityRoute,
   AdminCatalogueRoute: AdminCatalogueRoute,
   AdminLoginRoute: AdminLoginRoute,
+  CatalogueItemIdRoute: CatalogueItemIdRoute,
+  CatalogueIndexRoute: CatalogueIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
