@@ -99,12 +99,12 @@ export function SiteHeader() {
           : "border-b border-transparent bg-void/40 backdrop-blur-sm",
       )}
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 py-3 sm:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-2.5 sm:px-8">
         <Link to="/" className="flex items-center" onClick={() => setOpen(false)}>
           <img
             src={badgeLogo}
             alt="Antofity Concepts"
-            className="h-14 w-auto sm:h-16"
+            className="h-16 w-auto sm:h-20"
             width={924}
             height={480}
           />

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-infrastructure.jpg";
-import { ActionLink, Eyebrow, Section, SectionHeading } from "@/components/site/primitives";
+import { ActionLink, Section, SectionHeading } from "@/components/site/primitives";
 import { CtaBand } from "@/components/site/CtaBand";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Testimonials } from "@/components/site/Testimonials";
@@ -92,8 +92,7 @@ function Home() {
 
         <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
           <div className="max-w-2xl reveal">
-            <Eyebrow dark>Nairobi, Kenya · Est. 2017</Eyebrow>
-            <h1 className="mt-4 max-w-md text-base font-medium leading-relaxed text-on-dark-muted sm:text-lg">
+            <h1 className="max-w-md text-base font-medium leading-relaxed text-on-dark-muted sm:text-lg">
               Network infrastructure, hardware supply and managed IT for organizations that can't
               afford downtime.
             </h1>
