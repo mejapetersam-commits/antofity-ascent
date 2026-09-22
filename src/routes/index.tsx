@@ -47,7 +47,7 @@ function Home() {
   return (
     <>
       {/* HERO */}
-      <section className="surface-dark relative isolate flex items-center overflow-hidden pt-28 pb-14 md:pt-32 md:pb-16">
+      <section className="surface-dark relative isolate flex items-center overflow-hidden pt-36 pb-14 sm:pt-40 md:pb-16">
         <img
           src={heroImage}
           alt="Enterprise data centre aisle with server racks and fibre cabling"

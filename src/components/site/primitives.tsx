@@ -133,7 +133,7 @@ export function PageHero({
   intro: string;
 }) {
   return (
-    <section className="surface-dark grid-tech relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
+    <section className="surface-dark grid-tech relative overflow-hidden pt-36 pb-20 md:pt-40 md:pb-28">
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
         <SectionHeading as="h1" dark eyebrow={eyebrow} title={title} intro={intro} />
       </div>
