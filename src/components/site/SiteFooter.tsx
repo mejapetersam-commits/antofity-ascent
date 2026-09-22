@@ -11,7 +11,7 @@ export function SiteFooter() {
           <img
             src={lockupLogo}
             alt="Antofity Concepts: First class digital strategies"
-            className="h-16 w-auto"
+            className="h-24 w-auto sm:h-28"
             width={930}
             height={560}
           />
