@@ -104,11 +104,11 @@ export function SiteHeader() {
           <img
             src={badgeLogo}
             alt="Antofity Concepts"
-            className="h-16 w-auto sm:h-20"
+            className="h-20 w-auto sm:h-24"
             width={924}
             height={480}
           />
-          <span className="mt-0.5 text-[0.6rem] font-medium tracking-wide text-gold/90 sm:text-xs">
+          <span className="mt-2 text-sm font-medium tracking-wide text-gold/90">
             First class digital strategies
           </span>
         </Link>
