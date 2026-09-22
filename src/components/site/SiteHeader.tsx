@@ -108,7 +108,7 @@ export function SiteHeader() {
             width={924}
             height={480}
           />
-          <span className="mt-0.5 text-[0.6rem] font-medium italic tracking-wide text-gold/90 sm:text-xs">
+          <span className="mt-0.5 text-[0.6rem] font-medium tracking-wide text-gold/90 sm:text-xs">
             First class digital strategies
           </span>
         </Link>

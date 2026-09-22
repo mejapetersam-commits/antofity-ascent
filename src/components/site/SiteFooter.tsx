@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { company, navLinks, solutions } from "@/lib/company";
-import lockupLogo from "@/assets/antofity-lockup.png";
+import lockupLogo from "@/assets/antofity-badge.png";
 
 export function SiteFooter() {
   return (
@@ -10,11 +10,14 @@ export function SiteFooter() {
         <div className="md:col-span-1">
           <img
             src={lockupLogo}
-            alt="Antofity Concepts: First class digital strategies"
-            className="h-24 w-auto sm:h-28"
-            width={930}
-            height={560}
+            alt="Antofity Concepts"
+            className="h-20 w-auto sm:h-24"
+            width={924}
+            height={480}
           />
+          <p className="mt-2 text-sm font-medium tracking-wide text-gold/90">
+            First class digital strategies
+          </p>
           <p className="mt-5 text-sm leading-relaxed">End-to-end ICT solutions. Nairobi, Kenya.</p>
         </div>
 
