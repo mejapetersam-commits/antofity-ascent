@@ -33,6 +33,17 @@ export const catalogueCategories = [
   { label: "Access Point", value: "Access Point" },
   { label: "Security Cameras", value: "Security Cameras" },
   { label: "Adapters", value: "Adapters" },
+  { label: "Radios", value: "Radios" },
+  { label: "Outdoor Radios", value: "Outdoor Radios" },
+  { label: "SFP Modules", value: "SFP Modules" },
+  { label: "Patch Cables", value: "Patch Cables" },
+  { label: "Patch Panels", value: "Patch Panels" },
+  { label: "PoE Injectors", value: "PoE Injectors" },
+  { label: "Cables", value: "Cables" },
+  { label: "Accessories", value: "Accessories" },
+  { label: "UPS", value: "UPS" },
+  { label: "Services", value: "Services" },
+  { label: "Camping Gear", value: "Camping Gear" },
 ] as const;
 
 export const testimonials = [
