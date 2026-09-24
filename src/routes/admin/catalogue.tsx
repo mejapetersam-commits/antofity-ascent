@@ -10,6 +10,7 @@ import {
   type CatalogueItem,
 } from "@/lib/catalogue-server";
 import { actionVariants } from "@/components/site/primitives";
+import { promoCategories } from "@/lib/promos";
 
 export const Route = createFileRoute("/admin/catalogue")({
   beforeLoad: async () => {
@@ -44,6 +45,10 @@ function emptyDraft() {
     imageUrl: "",
     inStock: true,
     sortOrder: 0,
+    isSpecialOffer: false,
+    isNewArrival: false,
+    isFeatured: false,
+    isLimitedStock: false,
   };
 }
 
@@ -73,6 +78,10 @@ function AdminCatalogue() {
       imageUrl: item.imageUrl ?? "",
       inStock: item.inStock,
       sortOrder: item.sortOrder,
+      isSpecialOffer: item.isSpecialOffer,
+      isNewArrival: item.isNewArrival,
+      isFeatured: item.isFeatured,
+      isLimitedStock: item.isLimitedStock,
     });
   }
 
@@ -91,6 +100,10 @@ function AdminCatalogue() {
         imageUrl: draft.imageUrl || null,
         inStock: draft.inStock,
         sortOrder: Number(draft.sortOrder) || 0,
+        isSpecialOffer: draft.isSpecialOffer,
+        isNewArrival: draft.isNewArrival,
+        isFeatured: draft.isFeatured,
+        isLimitedStock: draft.isLimitedStock,
       };
       if (draft.id !== null) {
         await updateCatalogueItem({ data: { ...payload, id: draft.id } });
@@ -270,6 +283,29 @@ function AdminCatalogue() {
               />
               In stock
             </label>
+            <fieldset className="sm:col-span-2">
+              <legend className={label}>Promotions (show on home page)</legend>
+              <div className="mt-2 flex flex-wrap gap-x-6 gap-y-2">
+                {promoCategories.map((c) => (
+                  <label
+                    key={c.flag}
+                    className="flex items-center gap-2 text-sm font-medium text-foreground"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={draft[c.flag]}
+                      onChange={(e) => setDraft({ ...draft, [c.flag]: e.target.checked })}
+                      className="size-4 accent-gold"
+                    />
+                    {c.label}
+                  </label>
+                ))}
+              </div>
+              <p className="mt-1.5 text-xs text-muted-foreground">
+                Each home page section only appears when at least one in-stock item is flagged.
+                Special Offers work best with an Original price set.
+              </p>
+            </fieldset>
           </div>
 
           {error ? <p className="mt-4 text-sm text-destructive">{error}</p> : null}
@@ -292,13 +328,14 @@ function AdminCatalogue() {
                 <th className="px-4 py-3">Category</th>
                 <th className="px-4 py-3">Price</th>
                 <th className="px-4 py-3">Stock</th>
+                <th className="px-4 py-3">Promos</th>
                 <th className="px-4 py-3" />
               </tr>
             </thead>
             <tbody className="divide-y divide-border bg-card">
               {items.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-10 text-center text-muted-foreground">
+                  <td colSpan={6} className="px-4 py-10 text-center text-muted-foreground">
                     No items yet. Add your first one above.
                   </td>
                 </tr>
@@ -314,6 +351,12 @@ function AdminCatalogue() {
                       ) : (
                         <span className="text-muted-foreground">Out of stock</span>
                       )}
+                    </td>
+                    <td className="px-4 py-3 text-xs text-muted-foreground">
+                      {promoCategories
+                        .filter((c) => item[c.flag])
+                        .map((c) => c.badge)
+                        .join(", ")}
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">

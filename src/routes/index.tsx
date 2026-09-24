@@ -6,6 +6,7 @@ import { CtaBand } from "@/components/site/CtaBand";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Testimonials } from "@/components/site/Testimonials";
 import { getCatalogueItems, type CatalogueItem } from "@/lib/catalogue-server";
+import { itemsForPromo, promoCategories } from "@/lib/promos";
 
 const title = "Antofity Concepts | ICT Solutions Company in Nairobi, Kenya";
 const description =
@@ -15,9 +16,9 @@ export const Route = createFileRoute("/")({
   loader: async () => {
     try {
       const items = await getCatalogueItems();
-      return { items: items.slice(0, 8) };
+      return { items: items.slice(0, 8), all: items };
     } catch {
-      return { items: [] as CatalogueItem[] };
+      return { items: [] as CatalogueItem[], all: [] as CatalogueItem[] };
     }
   },
   head: () => ({
@@ -42,7 +43,12 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const { items } = Route.useLoaderData();
+  const { items, all } = Route.useLoaderData();
+  const promoSections = promoCategories
+    .map((c) => ({ ...c, items: itemsForPromo(all, c.flag) }))
+    .filter((c) => c.items.length > 0);
+  // Alternate section backgrounds so stacked sections stay distinct.
+  const toneAt = (i: number) => (i % 2 === 0 ? "white" : "light");
 
   return (
     <>
@@ -109,8 +115,24 @@ function Home() {
         <div className="flow-line absolute inset-x-0 bottom-0 h-px bg-gold/10" aria-hidden="true" />
       </section>
 
+      {promoSections.map((c, i) => (
+        <Section key={c.flag} tone={toneAt(i)}>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <SectionHeading eyebrow={c.eyebrow} title={c.title} intro={c.intro} />
+            <ActionLink to="/catalogue" variant="outlineDark" size="sm">
+              View full catalogue <ArrowRight className="size-4" aria-hidden="true" />
+            </ActionLink>
+          </div>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {c.items.map((item) => (
+              <ProductCard key={item.id} item={item} />
+            ))}
+          </div>
+        </Section>
+      ))}
+
       {items.length > 0 ? (
-        <Section tone="white">
+        <Section tone={toneAt(promoSections.length)}>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <SectionHeading
               eyebrow="Catalogue"

@@ -14,6 +14,10 @@ export type CatalogueItem = {
   inStock: boolean;
   sortOrder: number;
   createdAt: string;
+  isSpecialOffer: boolean;
+  isNewArrival: boolean;
+  isFeatured: boolean;
+  isLimitedStock: boolean;
 };
 
 type CatalogueItemInput = {
@@ -26,6 +30,10 @@ type CatalogueItemInput = {
   imageUrl?: string | null;
   inStock?: boolean;
   sortOrder?: number;
+  isSpecialOffer?: boolean;
+  isNewArrival?: boolean;
+  isFeatured?: boolean;
+  isLimitedStock?: boolean;
 };
 
 export const getCatalogueItems = createServerFn({ method: "GET" }).handler(async () => {
@@ -34,7 +42,9 @@ export const getCatalogueItems = createServerFn({ method: "GET" }).handler(async
       id, name, description, price,
       original_price as "originalPrice", features, category,
       image_url as "imageUrl", in_stock as "inStock",
-      sort_order as "sortOrder", created_at as "createdAt"
+      sort_order as "sortOrder", created_at as "createdAt",
+      is_special_offer as "isSpecialOffer", is_new_arrival as "isNewArrival",
+      is_featured as "isFeatured", is_limited_stock as "isLimitedStock"
     from catalogue_items
     order by sort_order asc, created_at desc
   `;
@@ -49,7 +59,9 @@ export const getCatalogueItem = createServerFn({ method: "GET" })
         id, name, description, price,
         original_price as "originalPrice", features, category,
         image_url as "imageUrl", in_stock as "inStock",
-        sort_order as "sortOrder", created_at as "createdAt"
+        sort_order as "sortOrder", created_at as "createdAt",
+      is_special_offer as "isSpecialOffer", is_new_arrival as "isNewArrival",
+      is_featured as "isFeatured", is_limited_stock as "isLimitedStock"
       from catalogue_items
       where id = ${data.id}
     `;
@@ -62,7 +74,8 @@ export const createCatalogueItem = createServerFn({ method: "POST" })
     await requireAdmin();
     const rows = await sql()`
       insert into catalogue_items
-        (name, description, price, original_price, features, category, image_url, in_stock, sort_order)
+        (name, description, price, original_price, features, category, image_url, in_stock, sort_order,
+         is_special_offer, is_new_arrival, is_featured, is_limited_stock)
       values (
         ${data.name},
         ${data.description ?? null},
@@ -72,7 +85,11 @@ export const createCatalogueItem = createServerFn({ method: "POST" })
         ${data.category ?? null},
         ${data.imageUrl ?? null},
         ${data.inStock ?? true},
-        ${data.sortOrder ?? 0}
+        ${data.sortOrder ?? 0},
+        ${data.isSpecialOffer ?? false},
+        ${data.isNewArrival ?? false},
+        ${data.isFeatured ?? false},
+        ${data.isLimitedStock ?? false}
       )
       returning id
     `;
@@ -93,7 +110,11 @@ export const updateCatalogueItem = createServerFn({ method: "POST" })
         category = ${data.category ?? null},
         image_url = ${data.imageUrl ?? null},
         in_stock = ${data.inStock ?? true},
-        sort_order = ${data.sortOrder ?? 0}
+        sort_order = ${data.sortOrder ?? 0},
+        is_special_offer = ${data.isSpecialOffer ?? false},
+        is_new_arrival = ${data.isNewArrival ?? false},
+        is_featured = ${data.isFeatured ?? false},
+        is_limited_stock = ${data.isLimitedStock ?? false}
       where id = ${data.id}
     `;
     return { ok: true as const };
