@@ -1,8 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { PackageSearch } from "lucide-react";
 import { PageHero, Section } from "@/components/site/primitives";
 import { CtaBand } from "@/components/site/CtaBand";
 import { ProductCard } from "@/components/site/ProductCard";
+import { SearchInput } from "@/components/site/SearchInput";
+import { matchesQuery } from "@/lib/search";
 import { getCatalogueItems, type CatalogueItem } from "@/lib/catalogue-server";
 import { catalogueCategories } from "@/lib/company";
 import { cn } from "@/lib/utils";
@@ -77,10 +80,13 @@ function CategoryChips({ category }: { category?: string | undefined }) {
 function Catalogue() {
   const { items } = Route.useLoaderData();
   const { category } = Route.useSearch();
+  const [query, setQuery] = useState("");
 
-  const filtered = category
+  const byCategory = category
     ? items.filter((item) => item.category?.toLowerCase() === category.toLowerCase())
     : items;
+  const filtered = byCategory.filter((item) => matchesQuery(item, query));
+  const searching = query.trim().length > 0;
 
   return (
     <>
@@ -106,8 +112,23 @@ function Catalogue() {
         </Section>
       ) : (
         <Section tone="white">
+          <SearchInput
+            value={query}
+            onChange={setQuery}
+            placeholder="Search by name, brand, model or feature..."
+            className="mb-6"
+          />
           <CategoryChips category={category} />
-          {filtered.length === 0 ? (
+          {filtered.length === 0 && searching ? (
+            <div className="flex flex-col items-center gap-5 py-16 text-center">
+              <PackageSearch className="size-10 text-gold" aria-hidden="true" />
+              <p className="text-lg font-semibold text-foreground">No matches for "{query.trim()}"</p>
+              <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+                Try a different word{category ? ` or check other categories` : ""}, or get in touch
+                and we'll help you find what you need.
+              </p>
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center gap-5 py-16 text-center">
               <PackageSearch className="size-10 text-gold" aria-hidden="true" />
               <p className="text-lg font-semibold text-foreground">Nothing here yet</p>

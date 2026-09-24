@@ -307,3 +307,26 @@
     scroll-behavior: auto !important;
   }
 }
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Two identical halves side by side; sliding by -50% loops seamlessly. */
+@utility marquee-track {
+  width: max-content;
+  animation: marquee-scroll var(--marquee-duration, 40s) linear infinite;
+  will-change: transform;
+  &:has(.marquee-item:hover),
+  &:focus-within {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}

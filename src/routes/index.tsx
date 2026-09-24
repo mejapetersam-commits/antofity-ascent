@@ -4,6 +4,7 @@ import heroImage from "@/assets/hero-infrastructure.jpg";
 import { ActionLink, Section, SectionHeading } from "@/components/site/primitives";
 import { CtaBand } from "@/components/site/CtaBand";
 import { ProductCard } from "@/components/site/ProductCard";
+import { PromoCarousel } from "@/components/site/PromoCarousel";
 import { Testimonials } from "@/components/site/Testimonials";
 import { getCatalogueItems, type CatalogueItem } from "@/lib/catalogue-server";
 import { itemsForPromo, promoCategories } from "@/lib/promos";
@@ -45,7 +46,7 @@ export const Route = createFileRoute("/")({
 function Home() {
   const { items, all } = Route.useLoaderData();
   const promoSections = promoCategories
-    .map((c) => ({ ...c, items: itemsForPromo(all, c.flag) }))
+    .map((c) => ({ ...c, items: itemsForPromo(all, c.flag, 12) }))
     .filter((c) => c.items.length > 0);
   // Alternate section backgrounds so stacked sections stay distinct.
   const toneAt = (i: number) => (i % 2 === 0 ? "white" : "light");
@@ -123,11 +124,7 @@ function Home() {
               View full catalogue <ArrowRight className="size-4" aria-hidden="true" />
             </ActionLink>
           </div>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {c.items.map((item) => (
-              <ProductCard key={item.id} item={item} />
-            ))}
-          </div>
+          <PromoCarousel items={c.items} />
         </Section>
       ))}
 

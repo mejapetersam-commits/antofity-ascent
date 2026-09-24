@@ -11,6 +11,8 @@ import {
 } from "@/lib/catalogue-server";
 import { actionVariants } from "@/components/site/primitives";
 import { promoCategories } from "@/lib/promos";
+import { matchesQuery } from "@/lib/search";
+import { SearchInput } from "@/components/site/SearchInput";
 
 export const Route = createFileRoute("/admin/catalogue")({
   beforeLoad: async () => {
@@ -59,6 +61,8 @@ function AdminCatalogue() {
   const [draft, setDraft] = useState(emptyDraft());
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
+  const visibleItems = items.filter((item) => matchesQuery(item, query));
 
   const isEditing = draft.id !== null;
 
@@ -320,7 +324,18 @@ function AdminCatalogue() {
           </button>
         </form>
 
-        <div className="mt-10 overflow-hidden rounded-sm border border-border">
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-3">
+          <SearchInput
+            value={query}
+            onChange={setQuery}
+            placeholder="Search items by name, category or price..."
+          />
+          <p className="text-xs text-muted-foreground">
+            {query.trim() ? `${visibleItems.length} of ${items.length}` : `${items.length}`} items
+          </p>
+        </div>
+
+        <div className="mt-4 overflow-hidden rounded-sm border border-border">
           <table className="w-full text-left text-sm">
             <thead className="bg-muted text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">
               <tr>
@@ -333,14 +348,16 @@ function AdminCatalogue() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border bg-card">
-              {items.length === 0 ? (
+              {visibleItems.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-4 py-10 text-center text-muted-foreground">
-                    No items yet. Add your first one above.
+                    {items.length === 0
+                      ? "No items yet. Add your first one above."
+                      : "No items match your search."}
                   </td>
                 </tr>
               ) : (
-                items.map((item) => (
+                visibleItems.map((item) => (
                   <tr key={item.id}>
                     <td className="px-4 py-3 font-medium text-foreground">{item.name}</td>
                     <td className="px-4 py-3 text-muted-foreground">{item.category ?? ""}</td>
