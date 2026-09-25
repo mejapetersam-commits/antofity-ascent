@@ -44,14 +44,16 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
-// A pragmatic CSP: 'unsafe-inline' on style-src is needed for a few inline
-// style attributes (animation delays, a CSS custom property) and Tailwind's
-// generated stylesheet; script-src stays locked down to 'self' plus the CDNs
-// actually used. Tighten further if those inline styles are ever removed.
+// A pragmatic CSP: 'unsafe-inline' is needed on both script-src and
+// style-src. TanStack Start/Router inject inline bootstrap scripts for
+// hydration and streamed loader data (via dangerouslySetInnerHTML in its
+// Asset/ScriptOnce internals) with no nonce support wired up here, and a
+// few components use inline style attributes. Without 'unsafe-inline' on
+// script-src, hydration never runs and the app is a white screen.
 const SECURITY_HEADERS: Record<string, string> = {
   "content-security-policy": [
     "default-src 'self'",
-    "script-src 'self'",
+    "script-src 'self' 'unsafe-inline'",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: https://drive.google.com",
