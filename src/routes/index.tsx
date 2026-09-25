@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import heroImage from "@/assets/hero-infrastructure.jpg";
+import heroImage from "@/assets/hero-infrastructure.webp";
 import { ActionLink, Section, SectionHeading } from "@/components/site/primitives";
 import { CtaBand } from "@/components/site/CtaBand";
 import { ProductCard } from "@/components/site/ProductCard";

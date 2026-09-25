@@ -6,7 +6,7 @@ import { actionVariants } from "@/components/site/primitives";
 
 export const Route = createFileRoute("/admin/login")({
   head: () => ({
-    meta: [{ title: "Admin Login | Antofity Concepts" }],
+    meta: [{ title: "Admin Login | Antofity Concepts" }, { name: "robots", content: "noindex, nofollow" }],
   }),
   component: AdminLogin,
 });
@@ -24,8 +24,13 @@ function AdminLogin() {
     try {
       await adminLogin({ data: { password } });
       await navigate({ to: "/admin/catalogue" });
-    } catch {
-      setError("Incorrect password.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "";
+      setError(
+        message.includes("TOO_MANY_ATTEMPTS")
+          ? "Too many attempts. Try again in 15 minutes."
+          : "Incorrect password.",
+      );
       setLoading(false);
     }
   }

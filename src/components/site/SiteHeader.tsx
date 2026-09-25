@@ -11,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import badgeLogo from "@/assets/antofity-badge.png";
+import badgeLogo from "@/assets/antofity-badge.webp";
 
 function SiteHeaderMobileNav({ onNavigate }: { onNavigate: () => void }) {
   const [catalogueOpen, setCatalogueOpen] = useState(false);

@@ -1,5 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequestIP } from "@tanstack/react-start/server";
 import { adminSession } from "./session";
+import { checkRateLimit, recordFailure, resetRateLimit } from "./rate-limit";
 
 export const adminLogin = createServerFn({ method: "POST" })
   .validator((data: unknown) => data as { password: string })
@@ -8,9 +10,19 @@ export const adminLogin = createServerFn({ method: "POST" })
     if (!expected) {
       throw new Error("ADMIN_PASSWORD is not set");
     }
+
+    const ip = getRequestIP({ xForwardedFor: true }) ?? "unknown";
+    const { limited } = await checkRateLimit(ip);
+    if (limited) {
+      throw new Error("TOO_MANY_ATTEMPTS");
+    }
+
     if (data.password !== expected) {
+      await recordFailure(ip);
       throw new Error("INVALID_PASSWORD");
     }
+
+    await resetRateLimit(ip);
     const session = await adminSession();
     await session.update({ isAdmin: true });
     return { ok: true as const };

@@ -12,4 +12,21 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          // React/ReactDOM/scheduler churn far less often than app code, so
+          // splitting them into their own chunk lets browsers cache them
+          // across deploys instead of re-downloading on every release.
+          manualChunks: (id: string) => {
+            if (id.includes("node_modules/react-dom") || id.includes("node_modules/react/") || id.includes("node_modules/scheduler")) {
+              return "vendor-react";
+            }
+            return undefined;
+          },
+        },
+      },
+    },
+  },
 });

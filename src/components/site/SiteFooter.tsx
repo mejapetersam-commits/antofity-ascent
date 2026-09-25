@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { company, navLinks, solutions } from "@/lib/company";
-import lockupLogo from "@/assets/antofity-badge.png";
+import lockupLogo from "@/assets/antofity-badge.webp";
 
 export function SiteFooter() {
   return (

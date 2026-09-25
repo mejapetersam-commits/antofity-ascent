@@ -29,6 +29,10 @@ export const Route = createFileRoute("/catalogue/$itemId")({
     const title = item ? `${item.name} | Antofity Concepts` : "Product | Antofity Concepts";
     const description =
       item?.description ?? "Hardware and equipment available from Antofity Concepts.";
+    const url = item ? `/catalogue/${item.id}` : undefined;
+    const image = item?.imageUrl ? toDirectImageUrl(item.imageUrl) : undefined;
+    const price = item ? parsePrice(item.price) : null;
+
     return {
       meta: [
         { title },
@@ -36,7 +40,38 @@ export const Route = createFileRoute("/catalogue/$itemId")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "product" },
+        ...(url ? [{ property: "og:url", content: url }] : []),
+        ...(image ? [{ property: "og:image", content: image }] : []),
+        { name: "twitter:card", content: image ? "summary_large_image" : "summary" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        ...(image ? [{ name: "twitter:image", content: image }] : []),
+        ...(!item ? [{ name: "robots", content: "noindex" }] : []),
       ],
+      links: url ? [{ rel: "canonical", href: url }] : [],
+      scripts:
+        item && price !== null
+          ? [
+              {
+                type: "application/ld+json",
+                children: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "Product",
+                  name: item.name,
+                  description: item.description ?? undefined,
+                  image: image ?? undefined,
+                  offers: {
+                    "@type": "Offer",
+                    priceCurrency: "KES",
+                    price,
+                    availability: item.inStock
+                      ? "https://schema.org/InStock"
+                      : "https://schema.org/OutOfStock",
+                  },
+                }),
+              },
+            ]
+          : [],
     };
   },
   component: ProductDetail,

@@ -26,7 +26,7 @@ export const Route = createFileRoute("/admin/catalogue")({
     return { items };
   },
   head: () => ({
-    meta: [{ title: "Catalogue Admin | Antofity Concepts" }],
+    meta: [{ title: "Catalogue Admin | Antofity Concepts" }, { name: "robots", content: "noindex, nofollow" }],
   }),
   component: AdminCatalogue,
 });
