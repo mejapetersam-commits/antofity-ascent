@@ -9,7 +9,26 @@ const MAX_ATTEMPTS = 5;
  * before doing the sensitive work; call `recordFailure()` only when it
  * actually fails, and `reset()` on success.
  */
+let tableReady: Promise<void> | undefined;
+function ensureTable() {
+  tableReady ??= sql()`
+    create table if not exists admin_login_attempts (
+      identifier text primary key,
+      attempts integer not null default 0,
+      window_start timestamptz not null default now()
+    )
+  `.then(
+    () => undefined,
+    (err) => {
+      tableReady = undefined;
+      throw err;
+    },
+  );
+  return tableReady;
+}
+
 export async function checkRateLimit(identifier: string) {
+  await ensureTable();
   const rows = await sql()`
     select attempts, window_start as "windowStart"
     from admin_login_attempts

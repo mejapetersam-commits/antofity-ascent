@@ -1,7 +1,7 @@
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { LogOut, Pencil, Plus, Trash2, X } from "lucide-react";
-import { getAdminSessionStatus, adminLogout } from "@/lib/admin-auth";
+import { getAdminSessionStatus, adminLogout, changeAdminPassword } from "@/lib/admin-auth";
 import {
   getCatalogueItems,
   createCatalogueItem,
@@ -130,6 +130,43 @@ function AdminCatalogue() {
     await refresh();
   }
 
+  const [pw, setPw] = useState({ current: "", next: "", confirm: "" });
+  const [pwStatus, setPwStatus] = useState<{ ok: boolean; text: string } | null>(null);
+  const [pwSaving, setPwSaving] = useState(false);
+
+  async function handleChangePassword(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setPwStatus(null);
+    if (pw.next.length < 10) {
+      setPwStatus({ ok: false, text: "New password must be at least 10 characters." });
+      return;
+    }
+    if (pw.next !== pw.confirm) {
+      setPwStatus({ ok: false, text: "New passwords don't match." });
+      return;
+    }
+    setPwSaving(true);
+    try {
+      await changeAdminPassword({ data: { currentPassword: pw.current, newPassword: pw.next } });
+      setPw({ current: "", next: "", confirm: "" });
+      setPwStatus({ ok: true, text: "Password updated. Use it next time you log in." });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "";
+      setPwStatus({
+        ok: false,
+        text: message.includes("TOO_MANY_ATTEMPTS")
+          ? "Too many attempts. Try again in 15 minutes."
+          : message.includes("INVALID_PASSWORD")
+            ? "Current password is incorrect."
+            : message.includes("PASSWORD_TOO_SHORT")
+              ? "New password must be at least 10 characters."
+              : "Couldn't update the password because of a server problem.",
+      });
+    } finally {
+      setPwSaving(false);
+    }
+  }
+
   async function handleLogout() {
     await adminLogout();
     await navigate({ to: "/admin/login" });
@@ -148,6 +185,71 @@ function AdminCatalogue() {
             <LogOut className="size-4" aria-hidden="true" /> Log out
           </button>
         </div>
+
+        <details className="mt-6 rounded-sm border border-border bg-card p-6 shadow-card">
+          <summary className="cursor-pointer text-sm font-bold uppercase tracking-[0.1em] text-foreground">
+            Change admin password
+          </summary>
+          <form onSubmit={handleChangePassword} className="mt-5 grid gap-4 sm:grid-cols-3">
+            <div>
+              <label className={label} htmlFor="pw-current">
+                Current password
+              </label>
+              <input
+                id="pw-current"
+                type="password"
+                required
+                autoComplete="current-password"
+                className={`mt-1.5 ${field}`}
+                value={pw.current}
+                onChange={(e) => setPw({ ...pw, current: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className={label} htmlFor="pw-new">
+                New password (10+ characters)
+              </label>
+              <input
+                id="pw-new"
+                type="password"
+                required
+                minLength={10}
+                autoComplete="new-password"
+                className={`mt-1.5 ${field}`}
+                value={pw.next}
+                onChange={(e) => setPw({ ...pw, next: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className={label} htmlFor="pw-confirm">
+                Confirm new password
+              </label>
+              <input
+                id="pw-confirm"
+                type="password"
+                required
+                autoComplete="new-password"
+                className={`mt-1.5 ${field}`}
+                value={pw.confirm}
+                onChange={(e) => setPw({ ...pw, confirm: e.target.value })}
+              />
+            </div>
+            <div className="sm:col-span-3 flex items-center gap-4">
+              <button
+                type="submit"
+                disabled={pwSaving}
+                className={actionVariants({ variant: "primary" })}
+              >
+                {pwSaving ? "Saving…" : "Update password"}
+              </button>
+              {pwStatus ? (
+                <p className={`text-sm ${pwStatus.ok ? "text-foreground" : "text-destructive"}`} role="status">
+                  {pwStatus.text}
+                </p>
+              ) : null}
+            </div>
+          </form>
+        </details>
 
         <form
           onSubmit={handleSubmit}

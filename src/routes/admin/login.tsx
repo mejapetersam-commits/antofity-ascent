@@ -29,7 +29,9 @@ function AdminLogin() {
       setError(
         message.includes("TOO_MANY_ATTEMPTS")
           ? "Too many attempts. Try again in 15 minutes."
-          : "Incorrect password.",
+          : message.includes("INVALID_PASSWORD")
+            ? "Incorrect password."
+            : "Couldn't verify the login because of a server problem. Please try again, and check the database and environment settings if it keeps happening.",
       );
       setLoading(false);
     }
