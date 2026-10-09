@@ -15,3 +15,5 @@ Allow: /
 User-agent: *
 Allow: /
 Disallow: /admin
+
+Sitemap: https://www.antofityconcepts.co.ke/sitemap.xml

@@ -18,6 +18,8 @@ export type CatalogueItem = {
   isNewArrival: boolean;
   isFeatured: boolean;
   isLimitedStock: boolean;
+  /** Optional explicit brand; when empty the brand is read from the name. */
+  brand: string | null;
 };
 
 type CatalogueItemInput = {
@@ -34,7 +36,42 @@ type CatalogueItemInput = {
   isNewArrival?: boolean;
   isFeatured?: boolean;
   isLimitedStock?: boolean;
+  brand?: string | null;
 };
+
+let brandColumn: Promise<boolean> | undefined;
+
+/**
+ * Adds the optional `brand` column on first use. Resolves false (instead of
+ * throwing) if that is not possible, so the catalogue keeps working without it.
+ */
+function hasBrandColumn() {
+  brandColumn ??= sql()`alter table catalogue_items add column if not exists brand text`.then(
+    () => true,
+    () => false,
+  );
+  return brandColumn;
+}
+
+async function brandsById(): Promise<Map<number, string | null>> {
+  if (!(await hasBrandColumn())) return new Map();
+  try {
+    const rows = await sql()`select id, brand from catalogue_items`;
+    return new Map((rows as { id: number; brand: string | null }[]).map((r) => [r.id, r.brand]));
+  } catch {
+    return new Map();
+  }
+}
+
+async function saveBrand(id: number, brand: string | null | undefined) {
+  if (brand === undefined || !(await hasBrandColumn())) return;
+  const value = brand?.trim() || null;
+  try {
+    await sql()`update catalogue_items set brand = ${value} where id = ${id}`;
+  } catch {
+    // brand is optional; never fail the save because of it
+  }
+}
 
 export const getCatalogueItems = createServerFn({ method: "GET" }).handler(async () => {
   const rows = await sql()`
@@ -48,7 +85,11 @@ export const getCatalogueItems = createServerFn({ method: "GET" }).handler(async
     from catalogue_items
     order by sort_order asc, created_at desc
   `;
-  return rows as unknown as CatalogueItem[];
+  const brands = await brandsById();
+  return (rows as unknown as Omit<CatalogueItem, "brand">[]).map((r) => ({
+    ...r,
+    brand: brands.get(r.id) ?? null,
+  })) as CatalogueItem[];
 });
 
 export const getCatalogueItem = createServerFn({ method: "GET" })
@@ -65,7 +106,10 @@ export const getCatalogueItem = createServerFn({ method: "GET" })
       from catalogue_items
       where id = ${data.id}
     `;
-    return (rows[0] as CatalogueItem | undefined) ?? null;
+    const row = rows[0] as Omit<CatalogueItem, "brand"> | undefined;
+    if (!row) return null;
+    const brands = await brandsById();
+    return { ...row, brand: brands.get(row.id) ?? null } as CatalogueItem;
   });
 
 export const createCatalogueItem = createServerFn({ method: "POST" })
@@ -93,7 +137,9 @@ export const createCatalogueItem = createServerFn({ method: "POST" })
       )
       returning id
     `;
-    return rows[0] as { id: number };
+    const created = rows[0] as { id: number };
+    await saveBrand(created.id, data.brand);
+    return created;
   });
 
 export const updateCatalogueItem = createServerFn({ method: "POST" })
@@ -117,6 +163,7 @@ export const updateCatalogueItem = createServerFn({ method: "POST" })
         is_limited_stock = ${data.isLimitedStock ?? false}
       where id = ${data.id}
     `;
+    await saveBrand(data.id, data.brand);
     return { ok: true as const };
   });
 

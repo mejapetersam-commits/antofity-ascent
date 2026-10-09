@@ -4,7 +4,7 @@ import type { CatalogueItem } from "./catalogue-server";
 export function matchesQuery(item: CatalogueItem, query: string): boolean {
   const tokens = query.toLowerCase().split(/\s+/).filter(Boolean);
   if (tokens.length === 0) return true;
-  const haystack = [item.name, item.category, item.description, item.features, item.price]
+  const haystack = [item.name, item.brand, item.category, item.description, item.features, item.price]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();

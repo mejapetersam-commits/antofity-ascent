@@ -1,3 +1,4 @@
+import { knownBrandNames } from "@/lib/brands";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { LogOut, Pencil, Plus, Trash2, X } from "lucide-react";
@@ -44,6 +45,7 @@ function emptyDraft() {
     originalPrice: "",
     features: "",
     category: "",
+    brand: "",
     imageUrl: "",
     inStock: true,
     sortOrder: 0,
@@ -79,6 +81,7 @@ function AdminCatalogue() {
       originalPrice: item.originalPrice ?? "",
       features: item.features ?? "",
       category: item.category ?? "",
+      brand: item.brand ?? "",
       imageUrl: item.imageUrl ?? "",
       inStock: item.inStock,
       sortOrder: item.sortOrder,
@@ -101,6 +104,7 @@ function AdminCatalogue() {
         originalPrice: draft.originalPrice || null,
         features: draft.features || null,
         category: draft.category || null,
+        brand: draft.brand.trim() || null,
         imageUrl: draft.imageUrl || null,
         inStock: draft.inStock,
         sortOrder: Number(draft.sortOrder) || 0,
@@ -293,6 +297,24 @@ function AdminCatalogue() {
                 value={draft.category}
                 onChange={(e) => setDraft({ ...draft, category: e.target.value })}
               />
+            </div>
+            <div>
+              <label className={label} htmlFor="brand">
+                Brand (optional)
+              </label>
+              <input
+                id="brand"
+                list="brand-options"
+                placeholder="Detected from the name if empty"
+                className={`mt-1.5 ${field}`}
+                value={draft.brand}
+                onChange={(e) => setDraft({ ...draft, brand: e.target.value })}
+              />
+              <datalist id="brand-options">
+                {knownBrandNames.map((b) => (
+                  <option key={b} value={b} />
+                ))}
+              </datalist>
             </div>
             <div>
               <label className={label} htmlFor="price">

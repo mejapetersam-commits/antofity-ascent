@@ -35,8 +35,14 @@ const matchers = BRANDS.map((b) => ({
   regex: new RegExp(`(^|[^a-z0-9])(${[b.name, ...(b.aliases ?? [])].map(escape).join("|")})(?![a-z0-9])`, "i"),
 }));
 
-/** Brand of an item, from the first brand that appears earliest in its name. */
-export function getBrand(item: Pick<CatalogueItem, "name">): string {
+export const knownBrandNames = BRANDS.map((b) => b.name);
+
+/** Brand of an item: the one set in admin if any, else the earliest known brand in its name. */
+export function getBrand(item: Pick<CatalogueItem, "name"> & { brand?: string | null }): string {
+  const explicit = item.brand?.trim();
+  if (explicit) {
+    return knownBrandNames.find((n) => n.toLowerCase() === explicit.toLowerCase()) ?? explicit;
+  }
   let best: { name: string; index: number } | null = null;
   for (const m of matchers) {
     const hit = m.regex.exec(item.name);
