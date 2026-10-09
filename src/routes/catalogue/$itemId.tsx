@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, MessageCircle, PackageSearch, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import { PageHero, Section } from "@/components/site/primitives";
 import { CtaBand } from "@/components/site/CtaBand";
-import { getCatalogueItem } from "@/lib/catalogue-server";
+import { ProductCard } from "@/components/site/ProductCard";
+import { getCatalogueItem, getCatalogueItems } from "@/lib/catalogue-server";
+import { relatedItems } from "@/lib/related";
 import { company } from "@/lib/company";
 import { toDirectImageUrl } from "@/lib/drive-image";
 import { formatKsh, parsePrice } from "@/lib/price";
@@ -22,7 +24,14 @@ export const Route = createFileRoute("/catalogue/$itemId")({
       item = null;
     }
     if (!item) throw notFound();
-    return { item };
+
+    let related: Awaited<ReturnType<typeof getCatalogueItems>> = [];
+    try {
+      related = relatedItems(item, await getCatalogueItems());
+    } catch {
+      // related items are a bonus; never fail the product page because of them
+    }
+    return { item, related };
   },
   head: ({ loaderData }) => {
     const item = loaderData?.item;
@@ -78,9 +87,12 @@ export const Route = createFileRoute("/catalogue/$itemId")({
 });
 
 function ProductDetail() {
-  const { item } = Route.useLoaderData();
+  const { item, related } = Route.useLoaderData();
   const { addItem, openCart } = useCart();
   const [quantity, setQuantity] = useState(1);
+  useEffect(() => {
+    setQuantity(1); // clicking a similar item reuses this page, so reset the quantity
+  }, [item.id]);
 
   const features = (item.features ?? "")
     .split("\n")
@@ -278,6 +290,19 @@ function ProductDetail() {
               <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
                 {item.description}
               </p>
+            </div>
+          </div>
+        ) : null}
+
+        {related.length > 0 ? (
+          <div className="mt-16">
+            <h2 className="text-sm font-bold uppercase tracking-[0.12em] text-foreground">
+              Similar items
+            </h2>
+            <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+              {related.map((r) => (
+                <ProductCard key={r.id} item={r} compact />
+              ))}
             </div>
           </div>
         ) : null}

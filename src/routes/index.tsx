@@ -4,7 +4,6 @@ import heroImage from "@/assets/hero-infrastructure.webp";
 import { ActionLink, Section, SectionHeading } from "@/components/site/primitives";
 import { CtaBand } from "@/components/site/CtaBand";
 import { ProductCard } from "@/components/site/ProductCard";
-import { PromoCarousel } from "@/components/site/PromoCarousel";
 import { Testimonials } from "@/components/site/Testimonials";
 import { getCatalogueItems, type CatalogueItem } from "@/lib/catalogue-server";
 import { itemsForPromo, promoCategories } from "@/lib/promos";
@@ -124,7 +123,11 @@ function Home() {
               View full catalogue <ArrowRight className="size-4" aria-hidden="true" />
             </ActionLink>
           </div>
-          <PromoCarousel items={c.items} />
+          <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+            {c.items.map((item) => (
+              <ProductCard key={item.id} item={item} compact />
+            ))}
+          </div>
         </Section>
       ))}
 
