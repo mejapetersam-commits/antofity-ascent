@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
   loader: async () => {
     try {
       const items = await getCatalogueItems();
-      return { items: items.slice(0, 8), all: items };
+      return { items: items.slice(0, 12), all: items };
     } catch {
       return { items: [] as CatalogueItem[], all: [] as CatalogueItem[] };
     }
@@ -141,9 +141,9 @@ function Home() {
             </ActionLink>
           </div>
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {items.map((item) => (
-              <ProductCard key={item.id} item={item} />
+              <ProductCard key={item.id} item={item} compact />
             ))}
           </div>
         </Section>
