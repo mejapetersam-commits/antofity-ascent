@@ -56,7 +56,7 @@ const SECURITY_HEADERS: Record<string, string> = {
     "script-src 'self' 'unsafe-inline'",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com",
-    "img-src 'self' data: https://drive.google.com",
+    "img-src 'self' data: blob: https:",
     "connect-src 'self'",
     "frame-ancestors 'none'",
     "base-uri 'self'",
