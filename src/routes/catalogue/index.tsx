@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { PackageSearch } from "lucide-react";
+import { ArrowLeft, PackageSearch } from "lucide-react";
 import { PageHero, Section } from "@/components/site/primitives";
 import { CtaBand } from "@/components/site/CtaBand";
 import { ProductCard } from "@/components/site/ProductCard";
@@ -8,16 +8,18 @@ import { SearchInput } from "@/components/site/SearchInput";
 import { matchesQuery } from "@/lib/search";
 import { getCatalogueItems, type CatalogueItem } from "@/lib/catalogue-server";
 import { catalogueCategories } from "@/lib/company";
+import { brandsOf, getBrand } from "@/lib/brands";
 import { cn } from "@/lib/utils";
 
 const title = "Catalogue | Antofity Concepts";
 const description = "Browse hardware and equipment available from Antofity Concepts.";
 
-type CatalogueSearch = { category?: string | undefined };
+type CatalogueSearch = { category?: string | undefined; brand?: string | undefined };
 
 export const Route = createFileRoute("/catalogue/")({
   validateSearch: (search: Record<string, unknown>): CatalogueSearch => ({
     category: typeof search["category"] === "string" ? search["category"] : undefined,
+    brand: typeof search["brand"] === "string" ? search["brand"] : undefined,
   }),
   loader: async () => {
     try {
@@ -44,17 +46,12 @@ export const Route = createFileRoute("/catalogue/")({
   component: Catalogue,
 });
 
-function CategoryChips({ category }: { category?: string | undefined }) {
+function CategoryChips() {
   return (
     <div className="mb-10 flex flex-wrap gap-2">
       <Link
         to="/catalogue"
-        className={cn(
-          "rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] transition-colors",
-          !category
-            ? "border-gold bg-gold text-void"
-            : "border-border text-muted-foreground hover:border-gold hover:text-gold",
-        )}
+        className="rounded-full border border-gold bg-gold px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-void transition-colors"
       >
         All
       </Link>
@@ -63,12 +60,7 @@ function CategoryChips({ category }: { category?: string | undefined }) {
           key={c.value}
           to="/catalogue"
           search={{ category: c.value }}
-          className={cn(
-            "rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] transition-colors",
-            category?.toLowerCase() === c.value.toLowerCase()
-              ? "border-gold bg-gold text-void"
-              : "border-border text-muted-foreground hover:border-gold hover:text-gold",
-          )}
+          className="rounded-full border border-border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground transition-colors hover:border-gold hover:text-gold"
         >
           {c.label}
         </Link>
@@ -77,22 +69,74 @@ function CategoryChips({ category }: { category?: string | undefined }) {
   );
 }
 
+function BrandChips({
+  category,
+  brand,
+  brands,
+}: {
+  category: string;
+  brand?: string | undefined;
+  brands: { brand: string; count: number }[];
+}) {
+  const chip =
+    "rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] transition-colors";
+  const active = "border-gold bg-gold text-void";
+  const idle = "border-border text-muted-foreground hover:border-gold hover:text-gold";
+  const total = brands.reduce((n, b) => n + b.count, 0);
+  return (
+    <div className="mb-10">
+      <Link
+        to="/catalogue"
+        className="mb-4 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground hover:text-gold"
+      >
+        <ArrowLeft className="size-3.5" aria-hidden="true" /> All categories
+      </Link>
+      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
+        Brands in {category}
+      </p>
+      <div className="flex flex-wrap gap-2">
+        <Link
+          to="/catalogue"
+          search={{ category }}
+          className={cn(chip, !brand ? active : idle)}
+        >
+          All brands ({total})
+        </Link>
+        {brands.map((b) => (
+          <Link
+            key={b.brand}
+            to="/catalogue"
+            search={{ category, brand: b.brand }}
+            className={cn(chip, brand?.toLowerCase() === b.brand.toLowerCase() ? active : idle)}
+          >
+            {b.brand} ({b.count})
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Catalogue() {
   const { items } = Route.useLoaderData();
-  const { category } = Route.useSearch();
+  const { category, brand } = Route.useSearch();
   const [query, setQuery] = useState("");
 
   const byCategory = category
     ? items.filter((item) => item.category?.toLowerCase() === category.toLowerCase())
     : items;
-  const filtered = byCategory.filter((item) => matchesQuery(item, query));
+  const brands = category ? brandsOf(byCategory) : [];
+  const byBrand = brand
+    ? byCategory.filter((item) => getBrand(item).toLowerCase() === brand.toLowerCase())
+    : byCategory;
+  const filtered = byBrand.filter((item) => matchesQuery(item, query));
   const searching = query.trim().length > 0;
 
   return (
     <>
       <PageHero
         eyebrow="Catalogue"
-        title={category ? category : "Equipment & Hardware."}
+        title={category ? (brand ? `${brand} ${category}` : category) : "Equipment & Hardware."}
         intro={
           items.length
             ? "Available hardware and equipment."
@@ -118,13 +162,17 @@ function Catalogue() {
             placeholder="Search by name, brand, model or feature..."
             className="mb-6"
           />
-          <CategoryChips category={category} />
+          {category ? (
+            <BrandChips category={category} brand={brand} brands={brands} />
+          ) : (
+            <CategoryChips />
+          )}
           {filtered.length === 0 && searching ? (
             <div className="flex flex-col items-center gap-5 py-16 text-center">
               <PackageSearch className="size-10 text-gold" aria-hidden="true" />
               <p className="text-lg font-semibold text-foreground">No matches for "{query.trim()}"</p>
               <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-                Try a different word{category ? ` or check other categories` : ""}, or get in touch
+                Try a different word{category ? (brand ? ` or check other brands` : ` or check other categories`) : ""}, or get in touch
                 and we'll help you find what you need.
               </p>
             </div>
@@ -133,7 +181,7 @@ function Catalogue() {
               <PackageSearch className="size-10 text-gold" aria-hidden="true" />
               <p className="text-lg font-semibold text-foreground">Nothing here yet</p>
               <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-                We're still adding items to {category}. In the meantime, get in touch and we'll help
+                We're still adding items to {brand ? `${brand} in ${category}` : category}. In the meantime, get in touch and we'll help
                 you find what you need.
               </p>
             </div>
