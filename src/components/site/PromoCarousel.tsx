@@ -2,20 +2,20 @@ import type { CSSProperties } from "react";
 import type { CatalogueItem } from "@/lib/catalogue-server";
 import { ProductCard } from "./ProductCard";
 
-const MIN_TO_SCROLL = 4; // fewer than this: show a static row instead of a loop
-const MIN_PER_HALF = 6; // each half of the loop must be wider than the viewport
-const SECONDS_PER_CARD = 6;
+const MIN_TO_SCROLL = 7; // 6 or fewer fit in one row: show a static row instead of a loop
+const MIN_PER_HALF = 10; // each half of the loop must be wider than the viewport
+const SECONDS_PER_CARD = 5;
 
 const cell =
-  "relative w-72 shrink-0 transition-transform duration-300 ease-out hover:z-20 hover:scale-110";
+  "relative w-40 shrink-0 transition-transform duration-300 ease-out hover:z-20 hover:scale-105 sm:w-44 lg:w-48 xl:w-52";
 
 export function PromoCarousel({ items }: { items: CatalogueItem[] }) {
   if (items.length < MIN_TO_SCROLL) {
     return (
-      <div className="mt-10 flex flex-wrap gap-6 py-6">
+      <div className="mt-10 flex flex-wrap gap-3 py-6">
         {items.map((item) => (
           <div key={item.id} className={`${cell} max-w-full`}>
-            <ProductCard item={item} />
+            <ProductCard item={item} compact />
           </div>
         ))}
       </div>
@@ -35,7 +35,7 @@ export function PromoCarousel({ items }: { items: CatalogueItem[] }) {
         style={{ "--marquee-duration": `${duration}s` } as CSSProperties}
       >
         {[false, true].map((isCopy) => (
-          <div key={String(isCopy)} className="flex shrink-0 gap-6 pr-6">
+          <div key={String(isCopy)} className="flex shrink-0 gap-3 pr-3">
             {half.map(({ item, repeat }, i) => {
               const hidden = isCopy || repeat;
               return (
@@ -45,7 +45,7 @@ export function PromoCarousel({ items }: { items: CatalogueItem[] }) {
                   aria-hidden={hidden || undefined}
                   inert={hidden}
                 >
-                  <ProductCard item={item} />
+                  <ProductCard item={item} compact />
                 </div>
               );
             })}
