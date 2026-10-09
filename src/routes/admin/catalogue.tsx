@@ -64,7 +64,37 @@ function AdminCatalogue() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
-  const visibleItems = items.filter((item) => matchesQuery(item, query));
+  const [nameFilter, setNameFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [promoFilter, setPromoFilter] = useState("");
+  const [stockFilter, setStockFilter] = useState("");
+  const categoryOptions = [
+    ...new Set(items.map((i) => i.category?.trim()).filter((c): c is string => Boolean(c))),
+  ].sort((a, b) => a.localeCompare(b));
+  const filtersActive = Boolean(
+    query.trim() || nameFilter.trim() || categoryFilter || promoFilter || stockFilter,
+  );
+  const visibleItems = items.filter((item) => {
+    if (!matchesQuery(item, query)) return false;
+    if (nameFilter.trim() && !item.name.toLowerCase().includes(nameFilter.trim().toLowerCase())) {
+      return false;
+    }
+    if (categoryFilter === "__none") {
+      if (item.category?.trim()) return false;
+    } else if (categoryFilter && item.category?.trim() !== categoryFilter) {
+      return false;
+    }
+    if (promoFilter === "__none") {
+      if (promoCategories.some((c) => item[c.flag])) return false;
+    } else if (promoFilter === "__any") {
+      if (!promoCategories.some((c) => item[c.flag])) return false;
+    } else if (promoFilter && !item[promoFilter as (typeof promoCategories)[number]["flag"]]) {
+      return false;
+    }
+    if (stockFilter === "in" && !item.inStock) return false;
+    if (stockFilter === "out" && item.inStock) return false;
+    return true;
+  });
 
   const isEditing = draft.id !== null;
 
@@ -455,8 +485,93 @@ function AdminCatalogue() {
             placeholder="Search items by name, category or price..."
           />
           <p className="text-xs text-muted-foreground">
-            {query.trim() ? `${visibleItems.length} of ${items.length}` : `${items.length}`} items
+            {filtersActive ? `${visibleItems.length} of ${items.length}` : `${items.length}`} items
           </p>
+        </div>
+
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          <div>
+            <label className={label} htmlFor="filter-name">
+              Name
+            </label>
+            <input
+              id="filter-name"
+              placeholder="Filter by name..."
+              className={`mt-1.5 ${field}`}
+              value={nameFilter}
+              onChange={(e) => setNameFilter(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className={label} htmlFor="filter-category">
+              Category
+            </label>
+            <select
+              id="filter-category"
+              className={`mt-1.5 ${field}`}
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+            >
+              <option value="">All categories</option>
+              {categoryOptions.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+              <option value="__none">No category</option>
+            </select>
+          </div>
+          <div>
+            <label className={label} htmlFor="filter-promo">
+              Promotion
+            </label>
+            <select
+              id="filter-promo"
+              className={`mt-1.5 ${field}`}
+              value={promoFilter}
+              onChange={(e) => setPromoFilter(e.target.value)}
+            >
+              <option value="">All items</option>
+              <option value="__any">Any promotion</option>
+              {promoCategories.map((c) => (
+                <option key={c.flag} value={c.flag}>
+                  {c.label}
+                </option>
+              ))}
+              <option value="__none">No promotion</option>
+            </select>
+          </div>
+          <div>
+            <label className={label} htmlFor="filter-stock">
+              Stock
+            </label>
+            <select
+              id="filter-stock"
+              className={`mt-1.5 ${field}`}
+              value={stockFilter}
+              onChange={(e) => setStockFilter(e.target.value)}
+            >
+              <option value="">All</option>
+              <option value="in">In stock</option>
+              <option value="out">Out of stock</option>
+            </select>
+          </div>
+          <div className="flex items-end">
+            <button
+              type="button"
+              disabled={!filtersActive}
+              onClick={() => {
+                setQuery("");
+                setNameFilter("");
+                setCategoryFilter("");
+                setPromoFilter("");
+                setStockFilter("");
+              }}
+              className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground hover:text-gold disabled:opacity-40 disabled:hover:text-muted-foreground"
+            >
+              Clear filters
+            </button>
+          </div>
         </div>
 
         <div className="mt-4 overflow-hidden rounded-sm border border-border">
@@ -477,7 +592,7 @@ function AdminCatalogue() {
                   <td colSpan={6} className="px-4 py-10 text-center text-muted-foreground">
                     {items.length === 0
                       ? "No items yet. Add your first one above."
-                      : "No items match your search."}
+                      : "No items match your search or filters."}
                   </td>
                 </tr>
               ) : (

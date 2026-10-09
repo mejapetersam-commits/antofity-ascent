@@ -7,7 +7,7 @@ import { useCart } from "@/lib/cart-context";
 import { promoCategories } from "@/lib/promos";
 import { formatKsh, parsePrice } from "@/lib/price";
 
-export function ProductCard({ item }: { item: CatalogueItem }) {
+export function ProductCard({ item, compact = false }: { item: CatalogueItem; compact?: boolean }) {
   const { addItem } = useCart();
 
   function handleAddToCart(e: React.MouseEvent) {
@@ -30,16 +30,16 @@ export function ProductCard({ item }: { item: CatalogueItem }) {
             <img
               src={toDirectImageUrl(item.imageUrl)}
               alt={item.name}
-              className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              className={`${compact ? "h-32" : "h-48"} w-full object-cover transition-transform duration-300 group-hover:scale-105`}
               loading="lazy"
             />
           ) : (
-            <div className="flex h-48 w-full items-center justify-center bg-void">
+            <div className={`flex ${compact ? "h-32" : "h-48"} w-full items-center justify-center bg-void`}>
               <PackageSearch className="size-8 text-gold/60" aria-hidden="true" />
             </div>
           )}
           {badges.length > 0 ? (
-            <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5">
+            <div className={`absolute ${compact ? "left-2 top-2" : "left-3 top-3"} flex flex-col items-start gap-1.5`}>
               {badges.map((b) => (
                 <span
                   key={b.flag}
@@ -51,17 +51,17 @@ export function ProductCard({ item }: { item: CatalogueItem }) {
             </div>
           ) : null}
         </div>
-        <div className="p-6 pb-4">
+        <div className={compact ? "p-3 pb-2" : "p-6 pb-4"}>
           {item.category ? <p className="eyebrow text-muted-foreground">{item.category}</p> : null}
-          <h3 className="mt-2 text-lg font-bold text-foreground group-hover:text-gold">
+          <h3 className={`mt-1.5 font-bold text-foreground group-hover:text-gold ${compact ? "line-clamp-2 text-sm leading-snug" : "mt-2 text-lg"}`}>
             {item.name}
           </h3>
-          {item.description ? (
+          {item.description && !compact ? (
             <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
               {item.description}
             </p>
           ) : null}
-          <div className="mt-4 flex items-center justify-between">
+          <div className={`${compact ? "mt-2" : "mt-4"} flex items-center justify-between`}>
             {item.price ? (
               <span className="flex flex-wrap items-baseline gap-2">
                 <span className="text-sm font-bold text-gold">{item.price}</span>
@@ -87,12 +87,12 @@ export function ProductCard({ item }: { item: CatalogueItem }) {
           </div>
         </div>
       </Link>
-      <div className="px-6 pb-6">
+      <div className={compact ? "px-3 pb-3" : "px-6 pb-6"}>
         <button
           type="button"
           onClick={handleAddToCart}
           disabled={!item.inStock}
-          className="flex w-full items-center justify-center gap-2 rounded-sm border border-gold/40 py-2.5 text-xs font-bold uppercase tracking-[0.1em] text-gold transition-colors hover:bg-gold hover:text-void disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-gold"
+          className={`flex w-full items-center justify-center gap-2 rounded-sm border border-gold/40 ${compact ? "py-1.5" : "py-2.5"} text-xs font-bold uppercase tracking-[0.1em] text-gold transition-colors hover:bg-gold hover:text-void disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-gold`}
         >
           <ShoppingCart className="size-3.5" aria-hidden="true" /> Add to Cart
         </button>
