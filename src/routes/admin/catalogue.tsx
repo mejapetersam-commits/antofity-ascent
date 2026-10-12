@@ -47,6 +47,7 @@ function emptyDraft() {
     category: "",
     brand: "",
     imageUrl: "",
+    galleryImages: [] as string[],
     inStock: true,
     sortOrder: 0,
     isSpecialOffer: false,
@@ -113,6 +114,7 @@ function AdminCatalogue() {
       category: item.category ?? "",
       brand: item.brand ?? "",
       imageUrl: item.imageUrl ?? "",
+      galleryImages: item.galleryImages ?? [],
       inStock: item.inStock,
       sortOrder: item.sortOrder,
       isSpecialOffer: item.isSpecialOffer,
@@ -136,6 +138,7 @@ function AdminCatalogue() {
         category: draft.category || null,
         brand: draft.brand.trim() || null,
         imageUrl: draft.imageUrl || null,
+        galleryImages: draft.galleryImages.map((u) => u.trim()).filter(Boolean),
         inStock: draft.inStock,
         sortOrder: Number(draft.sortOrder) || 0,
         isSpecialOffer: draft.isSpecialOffer,
@@ -385,6 +388,54 @@ function AdminCatalogue() {
               <p className="mt-1.5 text-xs text-muted-foreground">
                 You can paste a Google Drive "Share" link directly — just make sure the file is
                 shared as "Anyone with the link" (Viewer).
+              </p>
+            </div>
+            <div className="sm:col-span-2">
+              <span className={label}>Additional images (optional, up to 8)</span>
+              <div className="mt-1.5 grid gap-2">
+                {draft.galleryImages.map((url, i) => (
+                  <div key={i} className="flex gap-2">
+                    <input
+                      type="url"
+                      aria-label={`Additional image ${i + 1}`}
+                      className={field}
+                      placeholder="https://... or a Google Drive share link"
+                      value={url}
+                      onChange={(e) =>
+                        setDraft({
+                          ...draft,
+                          galleryImages: draft.galleryImages.map((u, j) =>
+                            j === i ? e.target.value : u,
+                          ),
+                        })
+                      }
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setDraft({
+                          ...draft,
+                          galleryImages: draft.galleryImages.filter((_, j) => j !== i),
+                        })
+                      }
+                      className="shrink-0 rounded-sm border border-border px-3 text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground hover:border-destructive hover:text-destructive"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                {draft.galleryImages.length < 8 ? (
+                  <button
+                    type="button"
+                    onClick={() => setDraft({ ...draft, galleryImages: [...draft.galleryImages, ""] })}
+                    className="justify-self-start text-xs font-semibold uppercase tracking-[0.08em] text-gold hover:underline"
+                  >
+                    + Add another image
+                  </button>
+                ) : null}
+              </div>
+              <p className="mt-1.5 text-xs text-muted-foreground">
+                These show as extra pictures on the product page, after the main image above.
               </p>
             </div>
             <div className="sm:col-span-2">

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, MessageCircle, PackageSearch, ShoppingCart } from "lucide-react";
+import { ArrowLeft, MessageCircle, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import { PageHero, Section } from "@/components/site/primitives";
 import { CtaBand } from "@/components/site/CtaBand";
 import { ProductCard } from "@/components/site/ProductCard";
+import { ProductGallery } from "@/components/site/ProductGallery";
 import { getCatalogueItem, getCatalogueItems } from "@/lib/catalogue-server";
 import { relatedItems } from "@/lib/related";
 import { company } from "@/lib/company";
@@ -138,17 +139,10 @@ function ProductDetail() {
         </Link>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-2">
-          {item.imageUrl ? (
-            <img
-              src={toDirectImageUrl(item.imageUrl)}
-              alt={item.name}
-              className="w-full rounded-sm border border-border object-cover"
-            />
-          ) : (
-            <div className="flex aspect-square w-full items-center justify-center rounded-sm border border-border bg-void">
-              <PackageSearch className="size-12 text-gold/60" aria-hidden="true" />
-            </div>
-          )}
+          <ProductGallery
+            images={[item.imageUrl, ...(item.galleryImages ?? [])].filter((u): u is string => Boolean(u))}
+            name={item.name}
+          />
 
           <div>
             {item.category ? (

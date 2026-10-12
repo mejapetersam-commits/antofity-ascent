@@ -20,6 +20,8 @@ export type CatalogueItem = {
   isLimitedStock: boolean;
   /** Optional explicit brand; when empty the brand is read from the name. */
   brand: string | null;
+  /** Extra pictures shown in the product gallery, after `imageUrl`. */
+  galleryImages: string[];
 };
 
 type CatalogueItemInput = {
@@ -37,7 +39,59 @@ type CatalogueItemInput = {
   isFeatured?: boolean;
   isLimitedStock?: boolean;
   brand?: string | null;
+  galleryImages?: string[];
 };
+
+const MAX_GALLERY_IMAGES = 8;
+
+let galleryColumn: Promise<boolean> | undefined;
+
+/** Adds the optional `gallery_images` column on first use; resolves false if that fails. */
+function hasGalleryColumn() {
+  galleryColumn ??= sql()`alter table catalogue_items add column if not exists gallery_images text`.then(
+    () => true,
+    () => false,
+  );
+  return galleryColumn;
+}
+
+function parseGallery(raw: string | null | undefined): string[] {
+  if (!raw) return [];
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    return Array.isArray(parsed)
+      ? parsed.filter((u): u is string => typeof u === "string" && u.trim() !== "")
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+async function galleriesById(): Promise<Map<number, string[]>> {
+  if (!(await hasGalleryColumn())) return new Map();
+  try {
+    const rows = await sql()`select id, gallery_images as "gallery" from catalogue_items`;
+    return new Map(
+      (rows as { id: number; gallery: string | null }[]).map((r) => [r.id, parseGallery(r.gallery)]),
+    );
+  } catch {
+    return new Map();
+  }
+}
+
+async function saveGallery(id: number, images: string[] | undefined) {
+  if (images === undefined || !(await hasGalleryColumn())) return;
+  const cleaned = images
+    .map((u) => (typeof u === "string" ? u.trim() : ""))
+    .filter(Boolean)
+    .slice(0, MAX_GALLERY_IMAGES);
+  const value = cleaned.length > 0 ? JSON.stringify(cleaned) : null;
+  try {
+    await sql()`update catalogue_items set gallery_images = ${value} where id = ${id}`;
+  } catch {
+    // extra pictures are optional; never fail the save because of them
+  }
+}
 
 let brandColumn: Promise<boolean> | undefined;
 
@@ -85,10 +139,11 @@ export const getCatalogueItems = createServerFn({ method: "GET" }).handler(async
     from catalogue_items
     order by sort_order asc, created_at desc
   `;
-  const brands = await brandsById();
-  return (rows as unknown as Omit<CatalogueItem, "brand">[]).map((r) => ({
+  const [brands, galleries] = await Promise.all([brandsById(), galleriesById()]);
+  return (rows as unknown as Omit<CatalogueItem, "brand" | "galleryImages">[]).map((r) => ({
     ...r,
     brand: brands.get(r.id) ?? null,
+    galleryImages: galleries.get(r.id) ?? [],
   })) as CatalogueItem[];
 });
 
@@ -106,10 +161,14 @@ export const getCatalogueItem = createServerFn({ method: "GET" })
       from catalogue_items
       where id = ${data.id}
     `;
-    const row = rows[0] as Omit<CatalogueItem, "brand"> | undefined;
+    const row = rows[0] as Omit<CatalogueItem, "brand" | "galleryImages"> | undefined;
     if (!row) return null;
-    const brands = await brandsById();
-    return { ...row, brand: brands.get(row.id) ?? null } as CatalogueItem;
+    const [brands, galleries] = await Promise.all([brandsById(), galleriesById()]);
+    return {
+      ...row,
+      brand: brands.get(row.id) ?? null,
+      galleryImages: galleries.get(row.id) ?? [],
+    } as CatalogueItem;
   });
 
 export const createCatalogueItem = createServerFn({ method: "POST" })
@@ -139,6 +198,7 @@ export const createCatalogueItem = createServerFn({ method: "POST" })
     `;
     const created = rows[0] as { id: number };
     await saveBrand(created.id, data.brand);
+    await saveGallery(created.id, data.galleryImages);
     return created;
   });
 
@@ -164,6 +224,7 @@ export const updateCatalogueItem = createServerFn({ method: "POST" })
       where id = ${data.id}
     `;
     await saveBrand(data.id, data.brand);
+    await saveGallery(data.id, data.galleryImages);
     return { ok: true as const };
   });
 
